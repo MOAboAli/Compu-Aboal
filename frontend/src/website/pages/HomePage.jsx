@@ -65,39 +65,6 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-
-        {cms?.promotions?.length ? (
-          <section>
-            <h2>{t('home.promotions')}</h2>
-            <ul className="plain-list">
-              {cms.promotions.map((item, i) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-
-        <section>
-          <h2>{t('home.testimonials')}</h2>
-          <div className="grid-cards">
-            {(cms?.testimonials || []).map((item, i) => (
-              <blockquote key={i} className="card-link">
-                “{item.text}” — {item.author}
-              </blockquote>
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <h2>{t('home.news')}</h2>
-          <ul className="plain-list">
-            {(cms?.news || []).map((item, i) => (
-              <li key={i}>
-                <strong>{item.title}</strong>: {item.body}
-              </li>
-            ))}
-          </ul>
-        </section>
       </div>
     </div>
   );

@@ -21,10 +21,7 @@
       "heroTitle": "Stand out now",
       "heroText": "Shop products and request professional security and IT services from Compu-Aboali.",
       "featuredProducts": "Featured products",
-      "featuredServices": "Featured services",
-      "promotions": "Promotions",
-      "testimonials": "Customer testimonials",
-      "news": "Latest news"
+      "featuredServices": "Featured services"
     },
     "about": {
       "fallback": "Compu-Aboali provides IT, networking, and security solutions for homes and businesses across Egypt."
