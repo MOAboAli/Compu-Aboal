@@ -31,6 +31,12 @@
     "about": {
       "fallback": "Compu-Aboali provides IT, networking, and security solutions for homes and businesses across Egypt."
     },
+    "footer": {
+      "street": "12 Tahrir Street",
+      "city": "Cairo, Egypt",
+      "aboutTitle": "About the company",
+      "aboutText": "Compu-Aboali delivers computers, networking, security systems, and professional IT services for homes and businesses across Egypt."
+    },
     "contact": {
       "intro": "Reach out for product inquiries, site surveys, or maintenance support.",
       "phone": "Phone:",
@@ -51,9 +57,11 @@
     "services": {
       "title": "Services",
       "chooseFirst": "Choose a service first, then book your appointment.",
+      "viewDetails": "Details",
       "bookAppointment": "Book appointment",
+      "detailIntro": "Review this service and book an appointment when you are ready. Our team will contact you to confirm timing.",
       "bookFor": "Book appointment: {{name}}",
-      "fromPrice": "From ${{price}}",
+      "fromPrice": "From {{price}}",
       "loading": "Loading service...",
       "notFound": "Service not found",
       "backToServices": "Back to services",
@@ -61,6 +69,11 @@
       "submittedRef": "Reference",
       "submittedNote": "We will contact you soon. No customer account is required.",
       "submitAppointment": "Submit appointment",
+      "types": {
+        "siteSurvey": "Site survey",
+        "maintenance": "Maintenance",
+        "other": "Professional service"
+      },
       "form": {
         "name": "Full name",
         "email": "Email",

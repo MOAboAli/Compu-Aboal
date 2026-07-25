@@ -63,16 +63,74 @@ export default function WebsiteLayout() {
         <Outlet />
       </main>
 
-      <footer className="site-footer-bar">
+      <footer className="site-footer">
         <div className="site-footer-inner">
-          <p>{t('brand')}</p>
-          <nav className="footer-nav" aria-label="Footer">
-            <Link to="/about">{t('nav.about')}</Link>
-            <Link to="/contact">{t('nav.contact')}</Link>
-            <Link to="/shop">{t('nav.shop')}</Link>
-            <Link to="/services">{t('nav.services')}</Link>
-          </nav>
-          <p>Cairo · support@compu-aboali.com · +20 100 000 0000</p>
+          <div className="footer-contact">
+            <div className="footer-contact-row">
+              <span className="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z" />
+                  <circle cx="12" cy="10" r="2.4" />
+                </svg>
+              </span>
+              <div>
+                <p>{t('footer.street')}</p>
+                <strong>{t('footer.city')}</strong>
+              </div>
+            </div>
+            <div className="footer-contact-row">
+              <span className="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <path d="M6.5 4.5h3l1.5 4-2 1.2a12 12 0 0 0 5.3 5.3l1.2-2 4 1.5v3a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 4.5 6.7 2 2 0 0 1 6.5 4.5z" />
+                </svg>
+              </span>
+              <div>
+                <a href="tel:+201000000000">
+                  <strong>+20 100 000 0000</strong>
+                </a>
+              </div>
+            </div>
+            <div className="footer-contact-row">
+              <span className="footer-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
+                  <rect x="3.5" y="5.5" width="17" height="13" rx="2" />
+                  <path d="m4.5 7.5 7.5 6 7.5-6" />
+                </svg>
+              </span>
+              <div>
+                <a className="footer-email" href="mailto:support@compu-aboali.com">
+                  support@compu-aboali.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-about">
+            <h2>{t('footer.aboutTitle')}</h2>
+            <p>{t('footer.aboutText')}</p>
+            <div className="footer-social" aria-label="Social links">
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.6l.4-3H14V9z" />
+                </svg>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+                  <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.5 22H3.4l7.3-8.3L1 2h6.4l4.4 5.8L18.9 2zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20z" />
+                </svg>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+                  <path d="M6.3 9.3H3.5V20h2.8V9.3zM4.9 4A1.6 1.6 0 1 0 5 7.2 1.6 1.6 0 0 0 4.9 4zM20.5 20h-2.8v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V20H11V9.3h2.7v1.5h.1c.4-.7 1.3-1.5 2.7-1.5 2.9 0 3.4 1.9 3.4 4.4V20z" />
+                </svg>
+              </a>
+              <a href="https://github.com/MOAboAli/Compu-Aboal" target="_blank" rel="noreferrer" aria-label="GitHub">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

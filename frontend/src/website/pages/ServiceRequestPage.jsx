@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogApi, serviceRequestApi } from '../../shared/api';
+import { pickLocale } from '../../shared/locale';
 
 export default function ServiceRequestPage() {
   const { serviceId } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
@@ -25,6 +26,7 @@ export default function ServiceRequestPage() {
   });
   const [error, setError] = useState('');
   const [done, setDone] = useState(null);
+  const lang = i18n.language;
 
   useEffect(() => {
     setLoading(true);
@@ -90,13 +92,15 @@ export default function ServiceRequestPage() {
     );
   }
 
+  const serviceName = pickLocale(service, 'name', lang);
+
   return (
     <div className="stack narrow page-shell">
       <p className="muted">
-        <Link to="/services">{t('services.title')}</Link> / {service.name}
+        <Link to="/services">{t('services.title')}</Link> / {serviceName}
       </p>
-      <h1>{t('services.bookFor', { name: service.name })}</h1>
-      <p className="section-copy">{service.description}</p>
+      <h1>{t('services.bookFor', { name: serviceName })}</h1>
+      <p className="section-copy">{pickLocale(service, 'description', lang)}</p>
       <form className="form" onSubmit={submit}>
         <label>
           {t('services.form.name')}

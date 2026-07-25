@@ -8,6 +8,7 @@ import HomePage from '../website/pages/HomePage';
 import ShopPage from '../website/pages/ShopPage';
 import ProductPage from '../website/pages/ProductPage';
 import ServicesPage from '../website/pages/ServicesPage';
+import ServiceDetailPage from '../website/pages/ServiceDetailPage';
 import ServiceRequestPage from '../website/pages/ServiceRequestPage';
 import AboutPage from '../website/pages/AboutPage';
 import ContactPage from '../website/pages/ContactPage';
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="shop/:id" element={<ProductPage />} />
             <Route path="services" element={<ServicesPage />} />
             <Route path="services/:serviceId/appointment" element={<ServiceRequestPage />} />
+            <Route path="services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
           </Route>

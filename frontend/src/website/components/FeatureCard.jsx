@@ -1,15 +1,20 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { formatMoney } from '../../shared/locale';
+
+function unsplash(id) {
+  return `https://images.unsplash.com/photo-${id}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
+}
 
 const PLACEHOLDERS = {
-  product:
-    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80',
-  site_survey:
-    'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
-  maintenance:
-    'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80',
-  other:
-    'https://images.unsplash.com/photo-1558494949-ef526b004090?auto=format&fit=crop&w=800&q=80',
+  product: unsplash('1496181133206-80ce9b88a853'),
+  site_survey: unsplash('1557597774-9d273605dfa9'),
+  maintenance: unsplash('1581092160562-40aa08e78837'),
+  other: unsplash('1518770660439-4636190af475'),
 };
+
+const FALLBACK = unsplash('1486312338219-ce68d2c6f44d');
 
 export default function FeatureCard({
   to,
@@ -24,8 +29,15 @@ export default function FeatureCard({
   ctaLabel,
   ctaTo,
 }) {
-  const imgSrc = image || PLACEHOLDERS.product;
+  const { i18n } = useTranslation();
+  const [imgSrc, setImgSrc] = useState(image || PLACEHOLDERS.product);
+
+  useEffect(() => {
+    setImgSrc(image || PLACEHOLDERS.product);
+  }, [image]);
+
   const showSale = compareAtPrice != null && price != null && compareAtPrice > price;
+  const lang = i18n.language;
 
   return (
     <article className="feature-card">
@@ -33,7 +45,14 @@ export default function FeatureCard({
         {badge ? (
           <span className={`feature-badge feature-badge-${badgeTone}`}>{badge}</span>
         ) : null}
-        <img src={imgSrc} alt="" loading="lazy" />
+        <img
+          src={imgSrc}
+          alt=""
+          loading="lazy"
+          onError={() => {
+            if (imgSrc !== FALLBACK) setImgSrc(FALLBACK);
+          }}
+        />
       </div>
       <div className="feature-card-body">
         {subtitle ? <p className="feature-card-brand">{subtitle}</p> : null}
@@ -43,8 +62,8 @@ export default function FeatureCard({
         {description ? <p className="feature-card-desc">{description}</p> : null}
         {price != null ? (
           <p className="feature-card-price">
-            <span>${Number(price).toFixed(2)}</span>
-            {showSale ? <s>${Number(compareAtPrice).toFixed(2)}</s> : null}
+            <span>{formatMoney(price, lang)}</span>
+            {showSale ? <s>{formatMoney(compareAtPrice, lang)}</s> : null}
           </p>
         ) : null}
         <Link to={ctaTo || to} className="feature-card-cta">
