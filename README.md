@@ -7,12 +7,30 @@ Full-stack computer store inventory app:
 - **Database**: MongoDB
 - **Runtime**: Docker Compose
 
+## Recent changes
+
+- Restructured the backend into layered architecture: **context → repository → service → controller**
+- Added composition root (`container.js`) and Express app factory (`app.js`)
+- Added project Cursor skill `.cursor/skills/push` for README update + commit + push workflow
+- Kept product API routes compatible (`/api/products`, `/api/health`)
+
 ## Project structure
 
 ```text
 Code/
 ├── frontend/          # React app
-├── backend/           # Express API
+├── backend/
+│   └── src/
+│       ├── context/        # DB context
+│       ├── models/         # Mongoose schemas
+│       ├── repositories/   # Data access
+│       ├── services/       # Business logic
+│       ├── controllers/    # HTTP / presentation
+│       ├── routes/         # Thin route wiring
+│       ├── container.js
+│       ├── app.js
+│       └── index.js
+├── .cursor/skills/push/    # Push workflow skill
 ├── docker-compose.yml
 └── .env.example
 ```

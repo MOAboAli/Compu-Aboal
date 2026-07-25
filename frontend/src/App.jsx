@@ -157,8 +157,8 @@ export default function App() {
                   <div>
                     <strong>{product.name}</strong>
                     <span>
-                      {product.category} · ${Number(product.price).toFixed(2)} · stock{' '}
-                      {product.stock}
+                      {product.category} | $
+                      {Number(product.price).toFixed(2)} | stock {product.stock}
                     </span>
                     {product.description && <p>{product.description}</p>}
                   </div>
