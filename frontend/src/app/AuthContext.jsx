@@ -31,6 +31,9 @@ export function AuthProvider({ children }) {
 
   async function login(credentials) {
     const data = await authApi.login(credentials);
+    if (data.user?.role === 'customer') {
+      throw new Error('Admin access only');
+    }
     localStorage.setItem('token', data.token);
     setUser(data.user);
     return data.user;

@@ -25,6 +25,22 @@ function requireAuth(dbContext) {
   };
 }
 
+function optionalAuth(dbContext) {
+  return async (req, _res, next) => {
+    try {
+      const header = req.headers.authorization || '';
+      const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+      if (!token) return next();
+      const payload = jwt.verify(token, JWT_SECRET);
+      const user = await dbContext.User.findById(payload.sub);
+      if (user && user.isActive) req.user = user;
+    } catch (_) {
+      /* ignore invalid token for optional auth */
+    }
+    next();
+  };
+}
+
 function requireRoles(...roles) {
   return (req, res, next) => {
     if (!req.user) {
@@ -45,4 +61,4 @@ function signToken(user) {
   );
 }
 
-module.exports = { requireAuth, requireRoles, signToken, JWT_SECRET };
+module.exports = { requireAuth, optionalAuth, requireRoles, signToken, JWT_SECRET };

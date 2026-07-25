@@ -1,18 +1,18 @@
 const express = require('express');
 const { upload } = require('../middleware/upload');
 
-function createServiceRequestRoutes(serviceRequestController, { requireAuth, requireRoles }) {
+function createServiceRequestRoutes(serviceRequestController, { requireAuth, optionalAuth, requireRoles }) {
   const router = express.Router();
-  const staff = requireRoles('super_admin', 'admin', 'service_manager', 'customer_support');
+  const staff = [requireAuth, requireRoles('super_admin', 'admin', 'service_manager', 'customer_support')];
 
-  router.use(requireAuth);
-  router.post('/', upload.array('attachments', 5), serviceRequestController.create);
-  router.get('/mine', serviceRequestController.listMine);
-  router.get('/', staff, serviceRequestController.listAll);
-  router.get('/:id', serviceRequestController.getById);
-  router.patch('/:id/status', staff, serviceRequestController.updateStatus);
+  router.post('/', optionalAuth, upload.array('attachments', 5), serviceRequestController.create);
+  router.get('/mine', requireAuth, serviceRequestController.listMine);
+  router.get('/', ...staff, serviceRequestController.listAll);
+  router.get('/:id', requireAuth, serviceRequestController.getById);
+  router.patch('/:id/status', ...staff, serviceRequestController.updateStatus);
   router.post(
     '/:id/attachments',
+    requireAuth,
     upload.array('attachments', 5),
     serviceRequestController.addAttachments
   );

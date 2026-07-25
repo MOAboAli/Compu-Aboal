@@ -11,10 +11,12 @@
       "register": "إنشاء حساب",
       "admin": "الإدارة",
       "logout": "خروج",
-      "wishlist": "المفضلة"
+      "wishlist": "المفضلة",
+      "appointment": "حجز موعد"
     },
     "home": {
-      "heroTitle": "تقنيات وأمن وخدمات تكنولوجيا المعلومات",
+      "heroKicker": "أنت تحتاج أن",
+      "heroTitle": "تتميز الآن",
       "heroText": "تسوق المنتجات واطلب خدمات الأمن وتقنية المعلومات من كمبيو-أبوعلي.",
       "featuredProducts": "منتجات مميزة",
       "featuredServices": "خدمات مميزة",

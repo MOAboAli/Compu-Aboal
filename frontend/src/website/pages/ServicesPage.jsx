@@ -12,17 +12,14 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <div className="stack">
+    <div className="stack page-shell">
       <h1>{t('services.title')}</h1>
       <div className="actions">
-        <Link className="btn" to="/services/request/site-survey">
+        <Link className="cta-appointment" to="/services/request/site-survey">
           {t('services.requestSurvey')}
         </Link>
         <Link className="btn ghost" to="/services/request/maintenance">
           {t('services.requestMaintenance')}
-        </Link>
-        <Link className="btn ghost" to="/account">
-          {t('services.track')}
         </Link>
       </div>
       <div className="grid-cards">

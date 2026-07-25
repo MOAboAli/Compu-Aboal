@@ -12,7 +12,9 @@ const SERVICE_REQUEST_STATUSES = [
 const serviceRequestSchema = new mongoose.Schema(
   {
     requestNumber: { type: String, required: true, unique: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    guestName: { type: String, default: '' },
+    guestEmail: { type: String, default: '' },
     offering: { type: mongoose.Schema.Types.ObjectId, ref: 'ServiceOffering', default: null },
     type: { type: String, enum: ['site_survey', 'maintenance'], required: true },
     status: { type: String, enum: SERVICE_REQUEST_STATUSES, default: 'Submitted' },
@@ -25,7 +27,7 @@ const serviceRequestSchema = new mongoose.Schema(
       city: String,
       state: String,
       postalCode: String,
-      country: { type: String, default: 'Saudi Arabia' },
+      country: { type: String, default: 'Egypt' },
     },
     contactPhone: { type: String, default: '' },
     attachments: [{ type: String }],

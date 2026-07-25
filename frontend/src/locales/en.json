@@ -11,10 +11,12 @@
       "register": "Register",
       "admin": "Admin",
       "logout": "Logout",
-      "wishlist": "Wishlist"
+      "wishlist": "Wishlist",
+      "appointment": "Appointment"
     },
     "home": {
-      "heroTitle": "Technology, security, and IT services",
+      "heroKicker": "You need to",
+      "heroTitle": "Stand out now",
       "heroText": "Shop products and request professional security and IT services from Compu-Aboali.",
       "featuredProducts": "Featured products",
       "featuredServices": "Featured services",

@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { catalogApi, commerceApi } from '../../shared/api';
-import { useAuth } from '../../app/AuthContext';
+import { catalogApi } from '../../shared/api';
 
 export default function ShopPage() {
   const { t } = useTranslation();
-  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [q, setQ] = useState('');
@@ -29,24 +27,8 @@ export default function ShopPage() {
     load().catch((e) => setError(e.message));
   }, []);
 
-  async function addCart(productId) {
-    if (!user) {
-      setError('Please login first');
-      return;
-    }
-    await commerceApi.addToCart({ productId, quantity: 1 });
-  }
-
-  async function addWish(productId) {
-    if (!user) {
-      setError('Please login first');
-      return;
-    }
-    await commerceApi.addWishlist({ productId });
-  }
-
   return (
-    <div className="stack">
+    <div className="stack page-shell">
       <h1>{t('shop.title')}</h1>
       <div className="filters">
         <input
@@ -75,14 +57,9 @@ export default function ShopPage() {
             </Link>
             <span>${Number(p.discountPrice ?? p.price).toFixed(2)}</span>
             <span>Stock: {p.stock}</span>
-            <div className="actions">
-              <button type="button" onClick={() => addCart(p._id)}>
-                {t('shop.addToCart')}
-              </button>
-              <button type="button" className="ghost" onClick={() => addWish(p._id)}>
-                {t('shop.wishlist')}
-              </button>
-            </div>
+            <Link className="cta-appointment" to="/services">
+              {t('nav.appointment')}
+            </Link>
           </div>
         ))}
       </div>

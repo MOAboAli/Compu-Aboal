@@ -9,14 +9,7 @@ import ShopPage from '../website/pages/ShopPage';
 import ProductPage from '../website/pages/ProductPage';
 import ServicesPage from '../website/pages/ServicesPage';
 import ServiceRequestPage from '../website/pages/ServiceRequestPage';
-import CartPage from '../website/pages/CartPage';
-import WishlistPage from '../website/pages/WishlistPage';
-import PaymentSimPage from '../website/pages/PaymentSimPage';
-import CheckoutSuccessPage from '../website/pages/CheckoutSuccessPage';
-import LoginPage from '../website/pages/LoginPage';
-import RegisterPage from '../website/pages/RegisterPage';
-import ForgotPasswordPage from '../website/pages/ForgotPasswordPage';
-import AccountPage from '../website/pages/AccountPage';
+import AdminLoginPage from '../admin/pages/AdminLoginPage';
 import AdminDashboardPage from '../admin/pages/DashboardPage';
 import AdminUsersPage from '../admin/pages/UsersPage';
 import AdminProductsPage from '../admin/pages/ProductsPage';
@@ -40,18 +33,10 @@ export default function App() {
             <Route path="shop" element={<ShopPage />} />
             <Route path="shop/:id" element={<ProductPage />} />
             <Route path="services" element={<ServicesPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="forgot-password" element={<ForgotPasswordPage />} />
-            <Route element={<RequireAuth />}>
-              <Route path="services/request/:type" element={<ServiceRequestPage />} />
-              <Route path="cart" element={<CartPage />} />
-              <Route path="wishlist" element={<WishlistPage />} />
-              <Route path="checkout/pay/:orderId" element={<PaymentSimPage />} />
-              <Route path="checkout/success/:orderId" element={<CheckoutSuccessPage />} />
-              <Route path="account" element={<AccountPage />} />
-            </Route>
+            <Route path="services/request/:type" element={<ServiceRequestPage />} />
           </Route>
+
+          <Route path="/admin/login" element={<AdminLoginPage />} />
 
           <Route path="/admin" element={<RequireAuth adminOnly />}>
             <Route element={<AdminLayout />}>

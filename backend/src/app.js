@@ -22,7 +22,7 @@ const createAdminRoutes = require('./routes/adminRoutes');
 
 function createApp({ controllers, middleware }) {
   const app = express();
-  const { requireAuth, requireRoles, requestAudit } = middleware;
+  const { requireAuth, optionalAuth, requireRoles, requestAudit } = middleware;
 
   app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
   app.use(cors());
@@ -58,6 +58,7 @@ function createApp({ controllers, middleware }) {
     '/api/service-requests',
     createServiceRequestRoutes(controllers.serviceRequestController, {
       requireAuth,
+      optionalAuth,
       requireRoles,
     })
   );

@@ -1,5 +1,5 @@
 const dbContext = require('./context/dbContext');
-const { requireAuth, requireRoles } = require('./middleware/auth');
+const { requireAuth, optionalAuth, requireRoles } = require('./middleware/auth');
 const createAuditMiddleware = require('./middleware/audit');
 const { auditMiddleware } = createAuditMiddleware;
 
@@ -131,12 +131,14 @@ const backupController = new BackupController(backupService);
 const adminController = new AdminController(adminService);
 
 const auth = requireAuth(dbContext);
+const optional = optionalAuth(dbContext);
 const audit = createAuditMiddleware(auditService);
 
 module.exports = {
   dbContext,
   middleware: {
     requireAuth: auth,
+    optionalAuth: optional,
     requireRoles,
     audit,
     requestAudit: auditMiddleware(auditRepository),

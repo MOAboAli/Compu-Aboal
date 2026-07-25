@@ -13,6 +13,14 @@ class ServiceRequestService {
       throw httpError('type must be site_survey or maintenance');
     }
 
+    const guestEmail = (data.email || data.guestEmail || user?.email || '').trim();
+    const guestName = (data.name || data.guestName || user?.name || '').trim();
+    const contactPhone = (data.contactPhone || user?.phone || '').trim();
+
+    if (!user && (!guestEmail || !guestName || !contactPhone)) {
+      throw httpError('Name, email, and phone are required');
+    }
+
     const attachments = files.map((f) => `/uploads/${f.filename}`);
     let address = data.address || {};
     if (typeof address === 'string') {
@@ -37,24 +45,26 @@ class ServiceRequestService {
 
     const request = await this.serviceRequestRepository.create({
       requestNumber: requestNumber(),
-      user: user._id,
+      user: user?._id || null,
+      guestName: user ? '' : guestName,
+      guestEmail: user ? '' : guestEmail,
       offering: data.offering || null,
       type: data.type,
       title,
       description: descriptionParts.join('\n'),
       preferredDate: data.preferredDate || null,
       address,
-      contactPhone: data.contactPhone || user.phone || '',
+      contactPhone,
       attachments,
       notes: data.notes || '',
       status: 'Submitted',
     });
 
     await this.emailSimulator.send({
-      to: user.email,
+      to: guestEmail,
       subject: `Service request ${request.requestNumber} submitted`,
       body: `Your ${data.type} request "${title}" was submitted.`,
-      userId: user._id,
+      userId: user?._id || null,
       type: 'service_request_submitted',
       meta: { requestId: request._id },
     });

@@ -7,6 +7,8 @@ export default function ServiceRequestPage() {
   const navigate = useNavigate();
   const isSurvey = type === 'site-survey';
   const [form, setForm] = useState({
+    name: '',
+    email: '',
     address: '',
     contactPhone: '',
     buildingType: '',
@@ -19,6 +21,7 @@ export default function ServiceRequestPage() {
     description: '',
   });
   const [error, setError] = useState('');
+  const [done, setDone] = useState(null);
 
   function setField(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -26,31 +29,53 @@ export default function ServiceRequestPage() {
 
   async function submit(e) {
     e.preventDefault();
+    setError('');
     try {
       const created = await serviceRequestApi.create({
         type: isSurvey ? 'site_survey' : 'maintenance',
         ...form,
         floors: form.floors ? Number(form.floors) : undefined,
       });
-      navigate(`/account?request=${created._id}`);
+      setDone(created);
     } catch (err) {
       setError(err.message);
     }
   }
 
+  if (done) {
+    return (
+      <div className="stack narrow page-shell">
+        <h1>Request submitted</h1>
+        <p>Reference: {done.requestNumber || done._id}</p>
+        <p>We will contact you soon. No customer account is required.</p>
+        <button type="button" onClick={() => navigate('/services')}>
+          Back to services
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="stack narrow">
+    <div className="stack narrow page-shell">
       <h1>{isSurvey ? 'Site survey request' : 'Maintenance request'}</h1>
       <form className="form" onSubmit={submit}>
+        <label>
+          Full name
+          <input name="name" value={form.name} onChange={setField} required />
+        </label>
+        <label>
+          Email
+          <input name="email" type="email" value={form.email} onChange={setField} required />
+        </label>
+        <label>
+          Phone
+          <input name="contactPhone" value={form.contactPhone} onChange={setField} required />
+        </label>
         {isSurvey ? (
           <>
             <label>
               Site address
               <input name="address" value={form.address} onChange={setField} required />
-            </label>
-            <label>
-              Contact phone
-              <input name="contactPhone" value={form.contactPhone} onChange={setField} required />
             </label>
             <label>
               Building type
