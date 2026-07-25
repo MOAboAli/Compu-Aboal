@@ -6,6 +6,7 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 COPY . .
+RUN mkdir -p uploads
 
 EXPOSE 5000
 

@@ -1,0 +1,92 @@
+{
+  "ar": {
+    "brand": "كمبيو-أبوعلي",
+    "nav": {
+      "home": "الرئيسية",
+      "shop": "المتجر",
+      "services": "الخدمات",
+      "cart": "السلة",
+      "account": "حسابي",
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب",
+      "admin": "الإدارة",
+      "logout": "خروج",
+      "wishlist": "المفضلة",
+      "appointment": "حجز موعد",
+      "about": "من نحن",
+      "contact": "تواصل معنا"
+    },
+    "home": {
+      "heroKicker": "أنت تحتاج أن",
+      "heroTitle": "تتميز الآن",
+      "heroText": "تسوق المنتجات واطلب خدمات الأمن وتقنية المعلومات من كمبيو-أبوعلي.",
+      "featuredProducts": "منتجات مميزة",
+      "featuredServices": "خدمات مميزة",
+      "viewAll": "عرض الكل",
+      "viewProduct": "عرض المنتج",
+      "saleBadge": "تخفيض",
+      "featuredBadge": "مميز",
+      "serviceBadge": "خدمة"
+    },
+    "about": {
+      "fallback": "كمبيو-أبوعلي تقدم حلول تقنية المعلومات والشبكات والأمن للمنازل والشركات في مصر."
+    },
+    "contact": {
+      "intro": "تواصل معنا للاستفسار عن المنتجات أو طلب معاينة موقع أو الصيانة.",
+      "phone": "الهاتف:",
+      "email": "البريد:",
+      "address": "العنوان:"
+    },
+    "shop": {
+      "title": "المتجر",
+      "search": "بحث عن منتجات",
+      "filters": "تصفية",
+      "addToCart": "أضف إلى السلة",
+      "wishlist": "المفضلة",
+      "allCategories": "كل التصنيفات",
+      "loading": "جاري تحميل المنتج...",
+      "stock": "المخزون",
+      "backToShop": "العودة إلى المتجر"
+    },
+    "services": {
+      "title": "الخدمات",
+      "chooseFirst": "اختر الخدمة أولاً ثم احجز موعدك.",
+      "bookAppointment": "حجز موعد",
+      "bookFor": "حجز موعد: {{name}}",
+      "fromPrice": "بدءاً من ${{price}}",
+      "loading": "جاري تحميل الخدمة...",
+      "notFound": "الخدمة غير موجودة",
+      "backToServices": "العودة إلى الخدمات",
+      "submittedTitle": "تم إرسال الموعد",
+      "submittedRef": "الرقم المرجعي",
+      "submittedNote": "سنتواصل معك قريباً. لا حاجة لإنشاء حساب عميل.",
+      "submitAppointment": "تأكيد الموعد",
+      "form": {
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "address": "عنوان الموقع",
+        "buildingType": "نوع المبنى",
+        "floors": "عدد الطوابق",
+        "infrastructure": "البنية الحالية",
+        "deviceType": "نوع الجهاز",
+        "serialNumber": "الرقم التسلسلي",
+        "issue": "وصف المشكلة",
+        "preferredDate": "تاريخ الموعد المفضل",
+        "notes": "ملاحظات إضافية"
+      }
+    },
+    "checkout": {
+      "title": "إتمام الشراء",
+      "pay": "ادفع الآن (محاكاة)",
+      "paying": "جاري الدفع...",
+      "success": "تم الدفع بنجاح",
+      "backToOrders": "عرض الطلبات"
+    },
+    "account": {
+      "orders": "الطلبات",
+      "requests": "طلبات الخدمة",
+      "profile": "الملف الشخصي"
+    }
+  }
+}

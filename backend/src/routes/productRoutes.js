@@ -1,13 +1,15 @@
 const express = require('express');
+const { upload } = require('../middleware/upload');
 
-function createProductRoutes(productController) {
+function createProductRoutes(productController, { requireAuth, requireRoles }) {
   const router = express.Router();
+  const admin = [requireAuth, requireRoles('super_admin', 'admin', 'sales_manager')];
 
   router.get('/', productController.list);
   router.get('/:id', productController.getById);
-  router.post('/', productController.create);
-  router.put('/:id', productController.update);
-  router.delete('/:id', productController.remove);
+  router.post('/', ...admin, upload.single('featuredImage'), productController.create);
+  router.put('/:id', ...admin, upload.single('featuredImage'), productController.update);
+  router.delete('/:id', ...admin, productController.remove);
 
   return router;
 }

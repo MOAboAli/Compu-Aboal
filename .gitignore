@@ -8,3 +8,5 @@ build/
 coverage/
 .vscode/
 .idea/
+backend/uploads/
+frontend/dist/

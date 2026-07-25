@@ -1,0 +1,92 @@
+{
+  "en": {
+    "brand": "Compu-Aboali",
+    "nav": {
+      "home": "Home",
+      "shop": "Shop",
+      "services": "Services",
+      "cart": "Cart",
+      "account": "Account",
+      "login": "Login",
+      "register": "Register",
+      "admin": "Admin",
+      "logout": "Logout",
+      "wishlist": "Wishlist",
+      "appointment": "Appointment",
+      "about": "About us",
+      "contact": "Contact us"
+    },
+    "home": {
+      "heroKicker": "You need to",
+      "heroTitle": "Stand out now",
+      "heroText": "Shop products and request professional security and IT services from Compu-Aboali.",
+      "featuredProducts": "Featured products",
+      "featuredServices": "Featured services",
+      "viewAll": "View all",
+      "viewProduct": "View product",
+      "saleBadge": "Sale",
+      "featuredBadge": "Featured",
+      "serviceBadge": "Service"
+    },
+    "about": {
+      "fallback": "Compu-Aboali provides IT, networking, and security solutions for homes and businesses across Egypt."
+    },
+    "contact": {
+      "intro": "Reach out for product inquiries, site surveys, or maintenance support.",
+      "phone": "Phone:",
+      "email": "Email:",
+      "address": "Address:"
+    },
+    "shop": {
+      "title": "Shop",
+      "search": "Search products",
+      "filters": "Filters",
+      "addToCart": "Add to cart",
+      "wishlist": "Wishlist",
+      "allCategories": "All categories",
+      "loading": "Loading product...",
+      "stock": "Stock",
+      "backToShop": "Back to shop"
+    },
+    "services": {
+      "title": "Services",
+      "chooseFirst": "Choose a service first, then book your appointment.",
+      "bookAppointment": "Book appointment",
+      "bookFor": "Book appointment: {{name}}",
+      "fromPrice": "From ${{price}}",
+      "loading": "Loading service...",
+      "notFound": "Service not found",
+      "backToServices": "Back to services",
+      "submittedTitle": "Appointment submitted",
+      "submittedRef": "Reference",
+      "submittedNote": "We will contact you soon. No customer account is required.",
+      "submitAppointment": "Submit appointment",
+      "form": {
+        "name": "Full name",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Site address",
+        "buildingType": "Building type",
+        "floors": "Floors",
+        "infrastructure": "Existing infrastructure",
+        "deviceType": "Device type",
+        "serialNumber": "Serial number",
+        "issue": "Issue description",
+        "preferredDate": "Preferred appointment date",
+        "notes": "Additional notes"
+      }
+    },
+    "checkout": {
+      "title": "Checkout",
+      "pay": "Pay now (simulated)",
+      "paying": "Processing payment...",
+      "success": "Payment successful",
+      "backToOrders": "View orders"
+    },
+    "account": {
+      "orders": "Orders",
+      "requests": "Service requests",
+      "profile": "Profile"
+    }
+  }
+}

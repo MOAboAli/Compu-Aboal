@@ -3,40 +3,37 @@ class ProductController {
     this.productService = productService;
   }
 
-  list = async (_req, res) => {
+  list = async (req, res) => {
     try {
-      const products = await this.productService.listProducts();
-      res.json(products);
+      res.json(await this.productService.listProducts(req.query));
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(error.statusCode || 500).json({ message: error.message });
     }
   };
 
   getById = async (req, res) => {
     try {
-      const product = await this.productService.getProductById(req.params.id);
-      if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
-      }
-      res.json(product);
+      res.json(await this.productService.getProductById(req.params.id));
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(error.statusCode || 400).json({ message: error.message });
     }
   };
 
   create = async (req, res) => {
     try {
-      const product = await this.productService.createProduct(req.body);
-      res.status(201).json(product);
+      const body = { ...req.body };
+      if (req.file) body.featuredImage = `/uploads/${req.file.filename}`;
+      res.status(201).json(await this.productService.createProduct(body));
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(error.statusCode || 400).json({ message: error.message });
     }
   };
 
   update = async (req, res) => {
     try {
-      const product = await this.productService.updateProduct(req.params.id, req.body);
-      res.json(product);
+      const body = { ...req.body };
+      if (req.file) body.featuredImage = `/uploads/${req.file.filename}`;
+      res.json(await this.productService.updateProduct(req.params.id, body));
     } catch (error) {
       res.status(error.statusCode || 400).json({ message: error.message });
     }
@@ -44,8 +41,7 @@ class ProductController {
 
   remove = async (req, res) => {
     try {
-      const result = await this.productService.deleteProduct(req.params.id);
-      res.json(result);
+      res.json(await this.productService.deleteProduct(req.params.id));
     } catch (error) {
       res.status(error.statusCode || 400).json({ message: error.message });
     }
