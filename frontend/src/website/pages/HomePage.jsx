@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
 import FeatureCard, { productImage, serviceImage } from '../components/FeatureCard';
+import GalleryCarousel from '../components/GalleryCarousel';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -14,8 +15,8 @@ export default function HomePage() {
     Promise.all([catalogApi.cms(), catalogApi.products('?featured=1'), catalogApi.serviceOfferings()])
       .then(([c, p, s]) => {
         setCms(c);
-        setProducts(p.items || p);
-        setServices((s.items || s).slice(0, 6));
+        setProducts((p.items || p).slice(0, 10));
+        setServices((s.items || s).slice(0, 10));
       })
       .catch(() => {});
   }, []);
@@ -50,7 +51,7 @@ export default function HomePage() {
               {t('home.viewAll')}
             </Link>
           </div>
-          <div className="feature-grid">
+          <GalleryCarousel label={t('home.featuredServices')}>
             {services.map((s) => (
               <FeatureCard
                 key={s._id}
@@ -66,7 +67,7 @@ export default function HomePage() {
                 ctaTo={`/services/${s._id}/appointment`}
               />
             ))}
-          </div>
+          </GalleryCarousel>
         </section>
 
         <section className="feature-section">
@@ -76,7 +77,7 @@ export default function HomePage() {
               {t('home.viewAll')}
             </Link>
           </div>
-          <div className="feature-grid">
+          <GalleryCarousel label={t('home.featuredProducts')}>
             {products.map((p) => {
               const hasSale = p.discountPrice != null && p.discountPrice < p.price;
               return (
@@ -96,7 +97,7 @@ export default function HomePage() {
                 />
               );
             })}
-          </div>
+          </GalleryCarousel>
         </section>
       </div>
     </div>

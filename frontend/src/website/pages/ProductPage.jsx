@@ -9,11 +9,15 @@ export default function ProductPage() {
   const { t } = useTranslation();
   const [product, setProduct] = useState(null);
   const [message, setMessage] = useState('');
+  const [imgSrc, setImgSrc] = useState('');
 
   useEffect(() => {
     catalogApi
       .product(id)
-      .then(setProduct)
+      .then((data) => {
+        setProduct(data);
+        setImgSrc(productImage(data));
+      })
       .catch((e) => setMessage(e.message));
   }, [id]);
 
@@ -30,7 +34,15 @@ export default function ProductPage() {
         ) : product.featured ? (
           <span className="feature-badge feature-badge-blue">{t('home.featuredBadge')}</span>
         ) : null}
-        <img src={productImage(product)} alt={product.name} />
+        <img
+          src={imgSrc}
+          alt={product.name}
+          onError={() =>
+            setImgSrc(
+              'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+            )
+          }
+        />
       </div>
       <div className="product-detail-body">
         {product.category?.name ? (

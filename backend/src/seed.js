@@ -3,6 +3,31 @@ const dbContext = require('./context/dbContext');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/compu_aboali';
 
+const IMG = {
+  laptop: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  ultrabook:
+    'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  gaming:
+    'https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  cameraKit:
+    'https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  dome: 'https://images.unsplash.com/photo-1582139329536-e7284fece509?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  nvr: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  access:
+    'https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  network:
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  wifi: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  cable: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  hub: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  mouse: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  keyboard:
+    'https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  phone: 'https://images.unsplash.com/photo-1592890288564-76628a30a657?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  charger:
+    'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+};
+
 async function seed(ctx = dbContext) {
   if (ctx.connection.readyState !== 1) {
     await ctx.connect(MONGODB_URI);
@@ -76,8 +101,7 @@ async function seed(ctx = dbContext) {
       specs: { cpu: 'i7', ram: '16GB', storage: '512GB SSD' },
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.laptop,
     },
     {
       name: 'Ultrabook 14" Pro',
@@ -92,8 +116,7 @@ async function seed(ctx = dbContext) {
       specs: { cpu: 'i5', ram: '16GB', storage: '1TB SSD' },
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.ultrabook,
     },
     {
       name: 'Gaming Laptop RTX',
@@ -109,8 +132,7 @@ async function seed(ctx = dbContext) {
       specs: { cpu: 'Ryzen 7', ram: '32GB', gpu: 'RTX 4060' },
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.gaming,
     },
     {
       name: '4K IP Camera Kit',
@@ -124,8 +146,7 @@ async function seed(ctx = dbContext) {
       stock: 8,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.cameraKit,
     },
     {
       name: 'Dome Camera 5MP',
@@ -140,8 +161,7 @@ async function seed(ctx = dbContext) {
       stock: 40,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.dome,
     },
     {
       name: '8-Channel NVR',
@@ -155,8 +175,7 @@ async function seed(ctx = dbContext) {
       stock: 15,
       status: 'active',
       featured: false,
-      featuredImage:
-        'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.nvr,
     },
     {
       name: 'Access Control Kit',
@@ -170,8 +189,7 @@ async function seed(ctx = dbContext) {
       stock: 10,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.access,
     },
     {
       name: 'Gigabit Switch 24-Port',
@@ -185,8 +203,7 @@ async function seed(ctx = dbContext) {
       stock: 20,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1558494949-ef526b004090?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.network,
     },
     {
       name: 'Wi-Fi 6 Access Point',
@@ -201,8 +218,7 @@ async function seed(ctx = dbContext) {
       stock: 25,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1606904825846-647eb07f5be6?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.wifi,
     },
     {
       name: 'Cat6 Cable Box 305m',
@@ -216,8 +232,7 @@ async function seed(ctx = dbContext) {
       stock: 30,
       status: 'active',
       featured: false,
-      featuredImage:
-        'https://images.unsplash.com/photo-1544197150-b99a580bb7a2?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.cable,
     },
     {
       name: 'USB-C Hub Multiport',
@@ -232,8 +247,7 @@ async function seed(ctx = dbContext) {
       stock: 50,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1625948515291-69613efd103f?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.hub,
     },
     {
       name: 'Wireless Mouse Pro',
@@ -247,8 +261,7 @@ async function seed(ctx = dbContext) {
       stock: 60,
       status: 'active',
       featured: false,
-      featuredImage:
-        'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.mouse,
     },
     {
       name: 'Mechanical Keyboard',
@@ -262,8 +275,7 @@ async function seed(ctx = dbContext) {
       stock: 22,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.keyboard,
     },
     {
       name: 'Phone MagSafe Stand',
@@ -278,8 +290,7 @@ async function seed(ctx = dbContext) {
       stock: 35,
       status: 'active',
       featured: true,
-      featuredImage:
-        'https://images.unsplash.com/photo-1592890288564-76628a30a657?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.phone,
     },
     {
       name: '20W Fast Charger',
@@ -293,20 +304,27 @@ async function seed(ctx = dbContext) {
       stock: 80,
       status: 'active',
       featured: false,
-      featuredImage:
-        'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80',
+      featuredImage: IMG.charger,
     },
   ];
 
   let productsAdded = 0;
+  let productsUpdated = 0;
   for (const product of products) {
     const exists = await ctx.Product.findOne({ sku: product.sku });
     if (!exists) {
       await ctx.Product.create(product);
       productsAdded += 1;
+    } else if (exists.featuredImage !== product.featuredImage) {
+      await ctx.Product.updateOne(
+        { _id: exists._id },
+        { $set: { featuredImage: product.featuredImage, featured: product.featured } }
+      );
+      productsUpdated += 1;
     }
   }
   if (productsAdded) console.log(`Seeded ${productsAdded} products`);
+  if (productsUpdated) console.log(`Updated images for ${productsUpdated} products`);
 
   let securityCat = await ctx.ServiceCategory.findOne({ slug: 'security-systems' });
   if (!securityCat) {
