@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
+import FeatureCard, { productImage, serviceImage } from '../components/FeatureCard';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -42,27 +43,59 @@ export default function HomePage() {
       </section>
 
       <div className="home-sections">
-        <section>
-          <h2>{t('home.featuredProducts')}</h2>
-          <div className="grid-cards">
-            {products.map((p) => (
-              <Link key={p._id} to={`/shop/${p._id}`} className="card-link">
-                <strong>{p.name}</strong>
-                <span>${Number(p.discountPrice ?? p.price).toFixed(2)}</span>
-              </Link>
+        <section className="feature-section">
+          <div className="feature-section-head">
+            <h2>{t('home.featuredServices')}</h2>
+            <Link to="/services" className="feature-section-link">
+              {t('home.viewAll')}
+            </Link>
+          </div>
+          <div className="feature-grid">
+            {services.map((s) => (
+              <FeatureCard
+                key={s._id}
+                to={`/services/${s._id}/appointment`}
+                image={serviceImage(s.type)}
+                badge={t('home.serviceBadge')}
+                badgeTone="blue"
+                title={s.name}
+                subtitle={s.category?.name || s.type}
+                description={s.description}
+                price={s.basePrice}
+                ctaLabel={t('services.bookAppointment')}
+                ctaTo={`/services/${s._id}/appointment`}
+              />
             ))}
           </div>
         </section>
 
-        <section>
-          <h2>{t('home.featuredServices')}</h2>
-          <div className="grid-cards">
-            {services.map((s) => (
-              <div key={s._id} className="card-link">
-                <strong>{s.name}</strong>
-                <span>{s.categoryName || s.type}</span>
-              </div>
-            ))}
+        <section className="feature-section">
+          <div className="feature-section-head">
+            <h2>{t('home.featuredProducts')}</h2>
+            <Link to="/shop" className="feature-section-link">
+              {t('home.viewAll')}
+            </Link>
+          </div>
+          <div className="feature-grid">
+            {products.map((p) => {
+              const hasSale = p.discountPrice != null && p.discountPrice < p.price;
+              return (
+                <FeatureCard
+                  key={p._id}
+                  to={`/shop/${p._id}`}
+                  image={productImage(p)}
+                  badge={hasSale ? t('home.saleBadge') : t('home.featuredBadge')}
+                  badgeTone={hasSale ? 'sale' : 'blue'}
+                  title={p.name}
+                  subtitle={p.category?.name}
+                  description={p.shortDescription}
+                  price={hasSale ? p.discountPrice : p.price}
+                  compareAtPrice={hasSale ? p.price : null}
+                  ctaLabel={t('home.viewProduct')}
+                  ctaTo={`/shop/${p._id}`}
+                />
+              );
+            })}
           </div>
         </section>
       </div>

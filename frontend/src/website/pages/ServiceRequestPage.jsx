@@ -1,11 +1,14 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { serviceRequestApi } from '../../shared/api';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { catalogApi, serviceRequestApi } from '../../shared/api';
 
 export default function ServiceRequestPage() {
-  const { type } = useParams();
+  const { serviceId } = useParams();
   const navigate = useNavigate();
-  const isSurvey = type === 'site-survey';
+  const { t } = useTranslation();
+  const [service, setService] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -23,16 +26,27 @@ export default function ServiceRequestPage() {
   const [error, setError] = useState('');
   const [done, setDone] = useState(null);
 
+  useEffect(() => {
+    setLoading(true);
+    catalogApi
+      .serviceOffering(serviceId)
+      .then(setService)
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [serviceId]);
+
   function setField(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function submit(e) {
     e.preventDefault();
+    if (!service) return;
     setError('');
     try {
       const created = await serviceRequestApi.create({
-        type: isSurvey ? 'site_survey' : 'maintenance',
+        offering: service._id,
+        type: service.type,
         ...form,
         floors: form.floors ? Number(form.floors) : undefined,
       });
@@ -42,14 +56,35 @@ export default function ServiceRequestPage() {
     }
   }
 
+  if (loading) {
+    return <p className="page-shell">{t('services.loading')}</p>;
+  }
+
+  if (!service) {
+    return (
+      <div className="stack narrow page-shell">
+        <h1>{t('services.notFound')}</h1>
+        <p className="error">{error || t('services.chooseFirst')}</p>
+        <Link className="cta-appointment" to="/services">
+          {t('services.backToServices')}
+        </Link>
+      </div>
+    );
+  }
+
+  const isSurvey = service.type === 'site_survey';
+  const isMaintenance = service.type === 'maintenance';
+
   if (done) {
     return (
       <div className="stack narrow page-shell">
-        <h1>Request submitted</h1>
-        <p>Reference: {done.requestNumber || done._id}</p>
-        <p>We will contact you soon. No customer account is required.</p>
+        <h1>{t('services.submittedTitle')}</h1>
+        <p>
+          {t('services.submittedRef')}: {done.requestNumber || done._id}
+        </p>
+        <p>{t('services.submittedNote')}</p>
         <button type="button" onClick={() => navigate('/services')}>
-          Back to services
+          {t('services.backToServices')}
         </button>
       </div>
     );
@@ -57,70 +92,76 @@ export default function ServiceRequestPage() {
 
   return (
     <div className="stack narrow page-shell">
-      <h1>{isSurvey ? 'Site survey request' : 'Maintenance request'}</h1>
+      <p className="muted">
+        <Link to="/services">{t('services.title')}</Link> / {service.name}
+      </p>
+      <h1>{t('services.bookFor', { name: service.name })}</h1>
+      <p className="section-copy">{service.description}</p>
       <form className="form" onSubmit={submit}>
         <label>
-          Full name
+          {t('services.form.name')}
           <input name="name" value={form.name} onChange={setField} required />
         </label>
         <label>
-          Email
+          {t('services.form.email')}
           <input name="email" type="email" value={form.email} onChange={setField} required />
         </label>
         <label>
-          Phone
+          {t('services.form.phone')}
           <input name="contactPhone" value={form.contactPhone} onChange={setField} required />
         </label>
         {isSurvey ? (
           <>
             <label>
-              Site address
+              {t('services.form.address')}
               <input name="address" value={form.address} onChange={setField} required />
             </label>
             <label>
-              Building type
+              {t('services.form.buildingType')}
               <input name="buildingType" value={form.buildingType} onChange={setField} />
             </label>
             <label>
-              Floors
+              {t('services.form.floors')}
               <input name="floors" type="number" value={form.floors} onChange={setField} />
             </label>
             <label>
-              Existing infrastructure
+              {t('services.form.infrastructure')}
               <textarea name="infrastructure" value={form.infrastructure} onChange={setField} />
             </label>
           </>
-        ) : (
+        ) : null}
+        {isMaintenance ? (
           <>
             <label>
-              Device type
+              {t('services.form.deviceType')}
               <input name="deviceType" value={form.deviceType} onChange={setField} required />
             </label>
             <label>
-              Serial number
+              {t('services.form.serialNumber')}
               <input name="serialNumber" value={form.serialNumber} onChange={setField} />
             </label>
             <label>
-              Issue description
+              {t('services.form.issue')}
               <textarea name="issue" value={form.issue} onChange={setField} required />
             </label>
-            <label>
-              Preferred service date
-              <input
-                name="preferredDate"
-                type="date"
-                value={form.preferredDate}
-                onChange={setField}
-              />
-            </label>
           </>
-        )}
+        ) : null}
         <label>
-          Additional notes
+          {t('services.form.preferredDate')}
+          <input
+            name="preferredDate"
+            type="date"
+            value={form.preferredDate}
+            onChange={setField}
+            required
+          />
+        </label>
+        <label>
+          {t('services.form.notes')}
           <textarea name="description" value={form.description} onChange={setField} />
         </label>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Submit request</button>
+        <button type="submit">{t('services.submitAppointment')}</button>
       </form>
     </div>
   );

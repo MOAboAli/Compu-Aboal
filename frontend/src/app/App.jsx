@@ -35,7 +35,7 @@ export default function App() {
             <Route path="shop" element={<ShopPage />} />
             <Route path="shop/:id" element={<ProductPage />} />
             <Route path="services" element={<ServicesPage />} />
-            <Route path="services/request/:type" element={<ServiceRequestPage />} />
+            <Route path="services/:serviceId/appointment" element={<ServiceRequestPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
           </Route>

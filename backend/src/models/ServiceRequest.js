@@ -16,7 +16,7 @@ const serviceRequestSchema = new mongoose.Schema(
     guestName: { type: String, default: '' },
     guestEmail: { type: String, default: '' },
     offering: { type: mongoose.Schema.Types.ObjectId, ref: 'ServiceOffering', default: null },
-    type: { type: String, enum: ['site_survey', 'maintenance'], required: true },
+    type: { type: String, enum: ['site_survey', 'maintenance', 'other'], required: true },
     status: { type: String, enum: SERVICE_REQUEST_STATUSES, default: 'Submitted' },
     title: { type: String, required: true, trim: true },
     description: { type: String, default: '' },

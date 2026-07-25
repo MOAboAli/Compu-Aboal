@@ -3,14 +3,25 @@ const { requestNumber } = require('../utils/ids');
 const { SERVICE_REQUEST_STATUSES } = require('../models/ServiceRequest');
 
 class ServiceRequestService {
-  constructor({ serviceRequestRepository, emailSimulator }) {
+  constructor({ serviceRequestRepository, serviceOfferingRepository, emailSimulator }) {
     this.serviceRequestRepository = serviceRequestRepository;
+    this.serviceOfferingRepository = serviceOfferingRepository;
     this.emailSimulator = emailSimulator;
   }
 
   async create(user, data, files = []) {
-    if (!['site_survey', 'maintenance'].includes(data.type)) {
-      throw httpError('type must be site_survey or maintenance');
+    if (!data.offering) {
+      throw httpError('Please choose a service before booking an appointment');
+    }
+
+    const offering = await this.serviceOfferingRepository.findById(data.offering);
+    if (!offering || offering.status === 'inactive') {
+      throw httpError('Selected service was not found', 404);
+    }
+
+    const type = offering.type || data.type;
+    if (!['site_survey', 'maintenance', 'other'].includes(type)) {
+      throw httpError('Invalid service type');
     }
 
     const guestEmail = (data.email || data.guestEmail || user?.email || '').trim();
@@ -29,9 +40,11 @@ class ServiceRequestService {
 
     const title =
       data.title ||
-      (data.type === 'site_survey'
-        ? `Site survey - ${address.line1 || 'location'}`
-        : `Maintenance - ${data.deviceType || 'device'}`);
+      (type === 'site_survey'
+        ? `${offering.name} - ${address.line1 || 'location'}`
+        : type === 'maintenance'
+          ? `${offering.name} - ${data.deviceType || 'device'}`
+          : `Appointment - ${offering.name}`);
 
     const descriptionParts = [
       data.description,
@@ -48,8 +61,8 @@ class ServiceRequestService {
       user: user?._id || null,
       guestName: user ? '' : guestName,
       guestEmail: user ? '' : guestEmail,
-      offering: data.offering || null,
-      type: data.type,
+      offering: offering._id,
+      type,
       title,
       description: descriptionParts.join('\n'),
       preferredDate: data.preferredDate || null,
@@ -62,11 +75,11 @@ class ServiceRequestService {
 
     await this.emailSimulator.send({
       to: guestEmail,
-      subject: `Service request ${request.requestNumber} submitted`,
-      body: `Your ${data.type} request "${title}" was submitted.`,
+      subject: `Appointment ${request.requestNumber} submitted`,
+      body: `Your appointment for "${offering.name}" was submitted.`,
       userId: user?._id || null,
       type: 'service_request_submitted',
-      meta: { requestId: request._id },
+      meta: { requestId: request._id, offeringId: offering._id },
     });
 
     return this.serviceRequestRepository.findById(request._id);

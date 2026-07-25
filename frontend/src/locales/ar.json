@@ -21,7 +21,12 @@
       "heroTitle": "تتميز الآن",
       "heroText": "تسوق المنتجات واطلب خدمات الأمن وتقنية المعلومات من كمبيو-أبوعلي.",
       "featuredProducts": "منتجات مميزة",
-      "featuredServices": "خدمات مميزة"
+      "featuredServices": "خدمات مميزة",
+      "viewAll": "عرض الكل",
+      "viewProduct": "عرض المنتج",
+      "saleBadge": "تخفيض",
+      "featuredBadge": "مميز",
+      "serviceBadge": "خدمة"
     },
     "about": {
       "fallback": "كمبيو-أبوعلي تقدم حلول تقنية المعلومات والشبكات والأمن للمنازل والشركات في مصر."
@@ -37,13 +42,39 @@
       "search": "بحث عن منتجات",
       "filters": "تصفية",
       "addToCart": "أضف إلى السلة",
-      "wishlist": "المفضلة"
+      "wishlist": "المفضلة",
+      "allCategories": "كل التصنيفات",
+      "loading": "جاري تحميل المنتج...",
+      "stock": "المخزون",
+      "backToShop": "العودة إلى المتجر"
     },
     "services": {
       "title": "الخدمات",
-      "requestSurvey": "طلب معاينة موقع",
-      "requestMaintenance": "طلب صيانة",
-      "track": "تتبع الطلب"
+      "chooseFirst": "اختر الخدمة أولاً ثم احجز موعدك.",
+      "bookAppointment": "حجز موعد",
+      "bookFor": "حجز موعد: {{name}}",
+      "fromPrice": "بدءاً من ${{price}}",
+      "loading": "جاري تحميل الخدمة...",
+      "notFound": "الخدمة غير موجودة",
+      "backToServices": "العودة إلى الخدمات",
+      "submittedTitle": "تم إرسال الموعد",
+      "submittedRef": "الرقم المرجعي",
+      "submittedNote": "سنتواصل معك قريباً. لا حاجة لإنشاء حساب عميل.",
+      "submitAppointment": "تأكيد الموعد",
+      "form": {
+        "name": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "address": "عنوان الموقع",
+        "buildingType": "نوع المبنى",
+        "floors": "عدد الطوابق",
+        "infrastructure": "البنية الحالية",
+        "deviceType": "نوع الجهاز",
+        "serialNumber": "الرقم التسلسلي",
+        "issue": "وصف المشكلة",
+        "preferredDate": "تاريخ الموعد المفضل",
+        "notes": "ملاحظات إضافية"
+      }
     },
     "checkout": {
       "title": "إتمام الشراء",

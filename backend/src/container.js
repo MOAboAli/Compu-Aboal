@@ -98,6 +98,7 @@ const serviceService = new ServiceService({
 });
 const serviceRequestService = new ServiceRequestService({
   serviceRequestRepository,
+  serviceOfferingRepository,
   emailSimulator,
 });
 const cmsService = new CmsService(cmsRepository);

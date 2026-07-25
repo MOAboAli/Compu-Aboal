@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
+import FeatureCard, { productImage } from '../components/FeatureCard';
 
 export default function ShopPage() {
   const { t } = useTranslation();
@@ -37,7 +37,7 @@ export default function ShopPage() {
           onChange={(e) => setQ(e.target.value)}
         />
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="">All categories</option>
+          <option value="">{t('shop.allCategories')}</option>
           {categories.map((c) => (
             <option key={c._id} value={c._id}>
               {c.name}
@@ -49,19 +49,26 @@ export default function ShopPage() {
         </button>
       </div>
       {error && <p className="error">{error}</p>}
-      <div className="grid-cards">
-        {products.map((p) => (
-          <div key={p._id} className="card-link">
-            <Link to={`/shop/${p._id}`}>
-              <strong>{p.name}</strong>
-            </Link>
-            <span>${Number(p.discountPrice ?? p.price).toFixed(2)}</span>
-            <span>Stock: {p.stock}</span>
-            <Link className="cta-appointment" to="/services">
-              {t('nav.appointment')}
-            </Link>
-          </div>
-        ))}
+      <div className="feature-grid">
+        {products.map((p) => {
+          const hasSale = p.discountPrice != null && p.discountPrice < p.price;
+          return (
+            <FeatureCard
+              key={p._id}
+              to={`/shop/${p._id}`}
+              image={productImage(p)}
+              badge={hasSale ? t('home.saleBadge') : p.featured ? t('home.featuredBadge') : null}
+              badgeTone={hasSale ? 'sale' : 'blue'}
+              title={p.name}
+              subtitle={p.category?.name}
+              description={p.shortDescription}
+              price={hasSale ? p.discountPrice : p.price}
+              compareAtPrice={hasSale ? p.price : null}
+              ctaLabel={t('home.viewProduct')}
+              ctaTo={`/shop/${p._id}`}
+            />
+          );
+        })}
       </div>
     </div>
   );

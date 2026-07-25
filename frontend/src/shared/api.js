@@ -43,6 +43,7 @@ export const catalogApi = {
   product: (id) => api(`/products/${id}`),
   services: () => api('/services'),
   serviceOfferings: () => api('/services/offerings'),
+  serviceOffering: (id) => api(`/services/offerings/${id}`),
   cms: () => api('/cms'),
 };
 
