@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
 import FeatureCard, { serviceImage } from '../components/FeatureCard';
+import { pickLocale } from '../../shared/locale';
 
 export default function ServicesPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [offerings, setOfferings] = useState([]);
+  const lang = i18n.language;
 
   useEffect(() => {
     catalogApi
@@ -22,16 +24,16 @@ export default function ServicesPage() {
         {offerings.map((s) => (
           <FeatureCard
             key={s._id}
-            to={`/services/${s._id}/appointment`}
+            to={`/services/${s._id}`}
             image={serviceImage(s.type)}
             badge={t('home.serviceBadge')}
             badgeTone="blue"
-            title={s.name}
-            subtitle={s.category?.name || s.type}
-            description={s.description}
+            title={pickLocale(s, 'name', lang)}
+            subtitle={pickLocale(s.category, 'name', lang) || s.type}
+            description={pickLocale(s, 'description', lang)}
             price={s.basePrice}
-            ctaLabel={t('services.bookAppointment')}
-            ctaTo={`/services/${s._id}/appointment`}
+            ctaLabel={t('services.viewDetails')}
+            ctaTo={`/services/${s._id}`}
           />
         ))}
       </div>

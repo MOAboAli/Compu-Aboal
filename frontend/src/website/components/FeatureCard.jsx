@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { formatMoney } from '../../shared/locale';
 
 function unsplash(id) {
   return `https://images.unsplash.com/photo-${id}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`;
@@ -27,6 +29,7 @@ export default function FeatureCard({
   ctaLabel,
   ctaTo,
 }) {
+  const { i18n } = useTranslation();
   const [imgSrc, setImgSrc] = useState(image || PLACEHOLDERS.product);
 
   useEffect(() => {
@@ -34,6 +37,7 @@ export default function FeatureCard({
   }, [image]);
 
   const showSale = compareAtPrice != null && price != null && compareAtPrice > price;
+  const lang = i18n.language;
 
   return (
     <article className="feature-card">
@@ -58,8 +62,8 @@ export default function FeatureCard({
         {description ? <p className="feature-card-desc">{description}</p> : null}
         {price != null ? (
           <p className="feature-card-price">
-            <span>${Number(price).toFixed(2)}</span>
-            {showSale ? <s>${Number(compareAtPrice).toFixed(2)}</s> : null}
+            <span>{formatMoney(price, lang)}</span>
+            {showSale ? <s>{formatMoney(compareAtPrice, lang)}</s> : null}
           </p>
         ) : null}
         <Link to={ctaTo || to} className="feature-card-cta">

@@ -3,13 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
 import { productImage } from '../components/FeatureCard';
+import { formatMoney, pickLocale } from '../../shared/locale';
 
 export default function ProductPage() {
   const { id } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [product, setProduct] = useState(null);
   const [message, setMessage] = useState('');
   const [imgSrc, setImgSrc] = useState('');
+  const lang = i18n.language;
 
   useEffect(() => {
     catalogApi
@@ -36,7 +38,7 @@ export default function ProductPage() {
         ) : null}
         <img
           src={imgSrc}
-          alt={product.name}
+          alt={pickLocale(product, 'name', lang)}
           onError={() =>
             setImgSrc(
               'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
@@ -45,19 +47,19 @@ export default function ProductPage() {
         />
       </div>
       <div className="product-detail-body">
-        {product.category?.name ? (
-          <p className="feature-card-brand">{product.category.name}</p>
+        {product.category ? (
+          <p className="feature-card-brand">{pickLocale(product.category, 'name', lang)}</p>
         ) : null}
-        <h1>{product.name}</h1>
+        <h1>{pickLocale(product, 'name', lang)}</h1>
         <p className="feature-card-price">
-          <span>${Number(price).toFixed(2)}</span>
-          {hasSale ? <s>${Number(product.price).toFixed(2)}</s> : null}
+          <span>{formatMoney(price, lang)}</span>
+          {hasSale ? <s>{formatMoney(product.price, lang)}</s> : null}
         </p>
-        {product.shortDescription ? (
-          <p className="section-copy">{product.shortDescription}</p>
+        {pickLocale(product, 'shortDescription', lang) ? (
+          <p className="section-copy">{pickLocale(product, 'shortDescription', lang)}</p>
         ) : null}
-        {product.detailedDescription ? (
-          <p className="section-copy">{product.detailedDescription}</p>
+        {pickLocale(product, 'detailedDescription', lang) ? (
+          <p className="section-copy">{pickLocale(product, 'detailedDescription', lang)}</p>
         ) : null}
         <p className="muted">
           SKU {product.sku}

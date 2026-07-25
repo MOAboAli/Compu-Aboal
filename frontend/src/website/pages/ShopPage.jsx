@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
 import FeatureCard, { productImage } from '../components/FeatureCard';
+import { pickLocale } from '../../shared/locale';
 
 export default function ShopPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [q, setQ] = useState('');
   const [category, setCategory] = useState('');
   const [error, setError] = useState('');
+  const lang = i18n.language;
 
   async function load() {
     const params = new URLSearchParams();
@@ -40,7 +42,7 @@ export default function ShopPage() {
           <option value="">{t('shop.allCategories')}</option>
           {categories.map((c) => (
             <option key={c._id} value={c._id}>
-              {c.name}
+              {pickLocale(c, 'name', lang)}
             </option>
           ))}
         </select>
@@ -59,9 +61,9 @@ export default function ShopPage() {
               image={productImage(p)}
               badge={hasSale ? t('home.saleBadge') : p.featured ? t('home.featuredBadge') : null}
               badgeTone={hasSale ? 'sale' : 'blue'}
-              title={p.name}
-              subtitle={p.category?.name}
-              description={p.shortDescription}
+              title={pickLocale(p, 'name', lang)}
+              subtitle={pickLocale(p.category, 'name', lang)}
+              description={pickLocale(p, 'shortDescription', lang)}
               price={hasSale ? p.discountPrice : p.price}
               compareAtPrice={hasSale ? p.price : null}
               ctaLabel={t('home.viewProduct')}

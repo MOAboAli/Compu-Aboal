@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { catalogApi } from '../../shared/api';
 import FeatureCard, { productImage, serviceImage } from '../components/FeatureCard';
 import GalleryCarousel from '../components/GalleryCarousel';
+import { pickLocale } from '../../shared/locale';
 
 export default function HomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [cms, setCms] = useState(null);
   const [products, setProducts] = useState([]);
   const [services, setServices] = useState([]);
+  const lang = i18n.language;
 
   useEffect(() => {
     Promise.all([catalogApi.cms(), catalogApi.products('?featured=1'), catalogApi.serviceOfferings()])
@@ -55,16 +57,16 @@ export default function HomePage() {
             {services.map((s) => (
               <FeatureCard
                 key={s._id}
-                to={`/services/${s._id}/appointment`}
+                to={`/services/${s._id}`}
                 image={serviceImage(s.type)}
                 badge={t('home.serviceBadge')}
                 badgeTone="blue"
-                title={s.name}
-                subtitle={s.category?.name || s.type}
-                description={s.description}
+                title={pickLocale(s, 'name', lang)}
+                subtitle={pickLocale(s.category, 'name', lang) || s.type}
+                description={pickLocale(s, 'description', lang)}
                 price={s.basePrice}
-                ctaLabel={t('services.bookAppointment')}
-                ctaTo={`/services/${s._id}/appointment`}
+                ctaLabel={t('services.viewDetails')}
+                ctaTo={`/services/${s._id}`}
               />
             ))}
           </GalleryCarousel>
@@ -87,9 +89,9 @@ export default function HomePage() {
                   image={productImage(p)}
                   badge={hasSale ? t('home.saleBadge') : t('home.featuredBadge')}
                   badgeTone={hasSale ? 'sale' : 'blue'}
-                  title={p.name}
-                  subtitle={p.category?.name}
-                  description={p.shortDescription}
+                  title={pickLocale(p, 'name', lang)}
+                  subtitle={pickLocale(p.category, 'name', lang)}
+                  description={pickLocale(p, 'shortDescription', lang)}
                   price={hasSale ? p.discountPrice : p.price}
                   compareAtPrice={hasSale ? p.price : null}
                   ctaLabel={t('home.viewProduct')}
