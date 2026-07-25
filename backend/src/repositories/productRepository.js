@@ -3,12 +3,23 @@ class ProductRepository {
     this.Product = dbContext.Product;
   }
 
-  findAll() {
-    return this.Product.find().sort({ createdAt: -1 });
+  findAll(filter = {}, { limit = 100, skip = 0 } = {}) {
+    return this.Product.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('category', 'name slug')
+      .populate('subcategory', 'name slug');
   }
 
   findById(id) {
-    return this.Product.findById(id);
+    return this.Product.findById(id)
+      .populate('category', 'name slug')
+      .populate('subcategory', 'name slug');
+  }
+
+  findBySku(sku) {
+    return this.Product.findOne({ sku });
   }
 
   create(data) {
@@ -16,14 +27,17 @@ class ProductRepository {
   }
 
   updateById(id, data) {
-    return this.Product.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
-    });
+    return this.Product.findByIdAndUpdate(id, data, { new: true, runValidators: true })
+      .populate('category', 'name slug')
+      .populate('subcategory', 'name slug');
   }
 
   deleteById(id) {
     return this.Product.findByIdAndDelete(id);
+  }
+
+  count(filter = {}) {
+    return this.Product.countDocuments(filter);
   }
 }
 

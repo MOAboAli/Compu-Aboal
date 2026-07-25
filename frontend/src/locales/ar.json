@@ -1,0 +1,53 @@
+{
+  "ar": {
+    "brand": "كمبيو-أبوعلي",
+    "nav": {
+      "home": "الرئيسية",
+      "shop": "المتجر",
+      "services": "الخدمات",
+      "cart": "السلة",
+      "account": "حسابي",
+      "login": "تسجيل الدخول",
+      "register": "إنشاء حساب",
+      "admin": "الإدارة",
+      "logout": "خروج",
+      "wishlist": "المفضلة"
+    },
+    "home": {
+      "heroTitle": "تقنيات وأمن وخدمات تكنولوجيا المعلومات",
+      "heroText": "تسوق المنتجات واطلب خدمات الأمن وتقنية المعلومات من كمبيو-أبوعلي.",
+      "featuredProducts": "منتجات مميزة",
+      "featuredServices": "خدمات مميزة",
+      "promotions": "العروض",
+      "about": "من نحن",
+      "testimonials": "آراء العملاء",
+      "news": "آخر الأخبار",
+      "contact": "تواصل معنا"
+    },
+    "shop": {
+      "title": "المتجر",
+      "search": "بحث عن منتجات",
+      "filters": "تصفية",
+      "addToCart": "أضف إلى السلة",
+      "wishlist": "المفضلة"
+    },
+    "services": {
+      "title": "الخدمات",
+      "requestSurvey": "طلب معاينة موقع",
+      "requestMaintenance": "طلب صيانة",
+      "track": "تتبع الطلب"
+    },
+    "checkout": {
+      "title": "إتمام الشراء",
+      "pay": "ادفع الآن (محاكاة)",
+      "paying": "جاري الدفع...",
+      "success": "تم الدفع بنجاح",
+      "backToOrders": "عرض الطلبات"
+    },
+    "account": {
+      "orders": "الطلبات",
+      "requests": "طلبات الخدمة",
+      "profile": "الملف الشخصي"
+    }
+  }
+}

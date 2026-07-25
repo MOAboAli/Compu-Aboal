@@ -1,21 +1,20 @@
 # Compu-Aboali
 
-Full-stack computer store inventory app:
+Full-stack bilingual (EN/AR) computer store + services platform:
 
-- **Frontend**: React + Vite
-- **Backend**: Node.js + Express
+- **Frontend**: React + Vite (website `/` + admin `/admin`)
+- **Backend**: Node.js + Express (layered: context → repository → service → controller)
 - **Database**: MongoDB
 - **Runtime**: Docker Compose
+- **Integrations**: Payment / SMS / Email are **simulated**
 
 ## Recent changes
 
-- Added `develop` branch as the integration branch for all feature PRs
-- Protected `develop` and `main` so direct pushes are blocked (PR-only)
-- Enforced that only `develop` can be merged into `main` via GitHub Actions
-- Restructured the backend into layered architecture: **context → repository → service → controller**
-- Added composition root (`container.js`) and Express app factory (`app.js`)
-- Added project Cursor skill `.cursor/skills/push` for README update + commit + push workflow
-- Kept product API routes compatible (`/api/products`, `/api/health`)
+- Implemented BRD init structure on branch `init-structure`
+- Public website: shop, services requests, cart, simulated checkout/payment, account
+- Admin console: users, catalog, orders, services, CMS, reports, audit, backups
+- Backend domains with RBAC roles and seed data (`admin@compu-aboali.com` / `Admin123!`)
+- Added docs under `docs/`
 
 ## Branching strategy
 
@@ -23,27 +22,28 @@ Full-stack computer store inventory app:
 feature/*  --PR-->  develop  --PR-->  main
 ```
 
-- **Default branch:** `develop` — all work PRs target `develop`
-- **`develop`:** no direct pushes; merge only via pull request
-- **`main`:** no direct pushes; merge only via pull request from `develop`
+- Default branch: `develop`
+- No direct pushes to `develop` or `main`
 
 ## Project structure
 
 ```text
 Code/
-├── frontend/          # React app
-├── backend/
-│   └── src/
-│       ├── context/        # DB context
-│       ├── models/         # Mongoose schemas
-│       ├── repositories/   # Data access
-│       ├── services/       # Business logic
-│       ├── controllers/    # HTTP / presentation
-│       ├── routes/         # Thin route wiring
-│       ├── container.js
-│       ├── app.js
-│       └── index.js
-├── .cursor/skills/push/    # Push workflow skill
+├── frontend/src/
+│   ├── website/     # public ecommerce + services
+│   ├── admin/       # RBAC admin console
+│   ├── app/         # router, auth, i18n
+│   └── shared/      # API client
+├── backend/src/
+│   ├── context/
+│   ├── models/
+│   ├── repositories/
+│   ├── services/
+│   ├── controllers/
+│   ├── routes/
+│   ├── adapters/    # payment/sms/email simulators
+│   └── middleware/
+├── docs/
 ├── docker-compose.yml
 └── .env.example
 ```
@@ -54,20 +54,17 @@ Code/
 docker compose up --build
 ```
 
-Then open:
-
 - App: http://localhost:3000
 - API: http://localhost:5000/api/health
-- MongoDB: localhost:27017
 
-## Run locally (without Docker)
+## Run locally
 
 ### Backend
 
 ```bash
 cd backend
 npm install
-cp ../.env.example ../.env
+npm run seed
 npm run dev
 ```
 
@@ -79,15 +76,9 @@ npm install
 npm run dev
 ```
 
-Frontend: http://localhost:5173  
-Backend: http://localhost:5000
+## Docs
 
-## API
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Health check |
-| GET | `/api/products` | List products |
-| POST | `/api/products` | Create product |
-| PUT | `/api/products/:id` | Update product |
-| DELETE | `/api/products/:id` | Delete product |
+- [API](docs/API.md)
+- [Admin guide](docs/ADMIN_GUIDE.md)
+- [User guide](docs/USER_GUIDE.md)
+- [Backup](docs/BACKUP.md)

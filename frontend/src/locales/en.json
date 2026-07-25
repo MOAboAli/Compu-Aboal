@@ -1,0 +1,53 @@
+{
+  "en": {
+    "brand": "Compu-Aboali",
+    "nav": {
+      "home": "Home",
+      "shop": "Shop",
+      "services": "Services",
+      "cart": "Cart",
+      "account": "Account",
+      "login": "Login",
+      "register": "Register",
+      "admin": "Admin",
+      "logout": "Logout",
+      "wishlist": "Wishlist"
+    },
+    "home": {
+      "heroTitle": "Technology, security, and IT services",
+      "heroText": "Shop products and request professional security and IT services from Compu-Aboali.",
+      "featuredProducts": "Featured products",
+      "featuredServices": "Featured services",
+      "promotions": "Promotions",
+      "about": "About us",
+      "testimonials": "Customer testimonials",
+      "news": "Latest news",
+      "contact": "Contact"
+    },
+    "shop": {
+      "title": "Shop",
+      "search": "Search products",
+      "filters": "Filters",
+      "addToCart": "Add to cart",
+      "wishlist": "Wishlist"
+    },
+    "services": {
+      "title": "Services",
+      "requestSurvey": "Request site survey",
+      "requestMaintenance": "Request maintenance",
+      "track": "Track request"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "pay": "Pay now (simulated)",
+      "paying": "Processing payment...",
+      "success": "Payment successful",
+      "backToOrders": "View orders"
+    },
+    "account": {
+      "orders": "Orders",
+      "requests": "Service requests",
+      "profile": "Profile"
+    }
+  }
+}
