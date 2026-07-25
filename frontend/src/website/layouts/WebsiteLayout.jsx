@@ -47,6 +47,8 @@ export default function WebsiteLayout() {
             </NavLink>
             <NavLink to="/shop">{t('nav.shop')}</NavLink>
             <NavLink to="/services">{t('nav.services')}</NavLink>
+            <NavLink to="/about">{t('nav.about')}</NavLink>
+            <NavLink to="/contact">{t('nav.contact')}</NavLink>
           </nav>
 
           <div className="header-actions">
@@ -64,6 +66,12 @@ export default function WebsiteLayout() {
       <footer className="site-footer-bar">
         <div className="site-footer-inner">
           <p>{t('brand')}</p>
+          <nav className="footer-nav" aria-label="Footer">
+            <Link to="/about">{t('nav.about')}</Link>
+            <Link to="/contact">{t('nav.contact')}</Link>
+            <Link to="/shop">{t('nav.shop')}</Link>
+            <Link to="/services">{t('nav.services')}</Link>
+          </nav>
           <p>Cairo · support@compu-aboali.com · +20 100 000 0000</p>
         </div>
       </footer>

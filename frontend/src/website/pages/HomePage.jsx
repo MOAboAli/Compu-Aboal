@@ -78,13 +78,6 @@ export default function HomePage() {
         ) : null}
 
         <section>
-          <h2>{t('home.about')}</h2>
-          <p className="section-copy">
-            {cms?.about || 'Compu-Aboali provides IT, networking, and security solutions.'}
-          </p>
-        </section>
-
-        <section>
           <h2>{t('home.testimonials')}</h2>
           <div className="grid-cards">
             {(cms?.testimonials || []).map((item, i) => (
@@ -104,13 +97,6 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-        </section>
-
-        <section>
-          <h2>{t('home.contact')}</h2>
-          <p className="section-copy">{cms?.contact?.phone || '+20 100 000 0000'}</p>
-          <p className="section-copy">{cms?.contact?.email || 'support@compu-aboali.com'}</p>
-          <p className="section-copy">{cms?.contact?.address || 'Cairo, Egypt'}</p>
         </section>
       </div>
     </div>

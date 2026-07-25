@@ -12,7 +12,9 @@
       "admin": "Admin",
       "logout": "Logout",
       "wishlist": "Wishlist",
-      "appointment": "Appointment"
+      "appointment": "Appointment",
+      "about": "About us",
+      "contact": "Contact us"
     },
     "home": {
       "heroKicker": "You need to",
@@ -21,10 +23,17 @@
       "featuredProducts": "Featured products",
       "featuredServices": "Featured services",
       "promotions": "Promotions",
-      "about": "About us",
       "testimonials": "Customer testimonials",
-      "news": "Latest news",
-      "contact": "Contact"
+      "news": "Latest news"
+    },
+    "about": {
+      "fallback": "Compu-Aboali provides IT, networking, and security solutions for homes and businesses across Egypt."
+    },
+    "contact": {
+      "intro": "Reach out for product inquiries, site surveys, or maintenance support.",
+      "phone": "Phone:",
+      "email": "Email:",
+      "address": "Address:"
     },
     "shop": {
       "title": "Shop",

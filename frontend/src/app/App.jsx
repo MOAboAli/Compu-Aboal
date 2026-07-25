@@ -9,6 +9,8 @@ import ShopPage from '../website/pages/ShopPage';
 import ProductPage from '../website/pages/ProductPage';
 import ServicesPage from '../website/pages/ServicesPage';
 import ServiceRequestPage from '../website/pages/ServiceRequestPage';
+import AboutPage from '../website/pages/AboutPage';
+import ContactPage from '../website/pages/ContactPage';
 import AdminLoginPage from '../admin/pages/AdminLoginPage';
 import AdminDashboardPage from '../admin/pages/DashboardPage';
 import AdminUsersPage from '../admin/pages/UsersPage';
@@ -34,6 +36,8 @@ export default function App() {
             <Route path="shop/:id" element={<ProductPage />} />
             <Route path="services" element={<ServicesPage />} />
             <Route path="services/request/:type" element={<ServiceRequestPage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="contact" element={<ContactPage />} />
           </Route>
 
           <Route path="/admin/login" element={<AdminLoginPage />} />
