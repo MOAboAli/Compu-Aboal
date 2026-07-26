@@ -542,6 +542,13 @@ a {
   font-size: 0.9rem;
 }
 
+.feature-card-price-note {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
 .feature-card-cta {
   margin-top: auto;
   display: inline-flex;
@@ -824,6 +831,147 @@ button.linkish,
 
 .contact-details a {
   color: var(--ink);
+}
+
+.appointment-flow {
+  max-width: 720px;
+}
+
+.appointment-steps {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.appointment-steps span {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.appointment-steps span.active {
+  color: var(--sky);
+}
+
+.appointment-step-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.appointment-calendar {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.appointment-calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.appointment-calendar-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.appointment-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.appointment-calendar-grid.weekday span {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 700;
+  padding-bottom: 0.35rem;
+}
+
+.cal-empty {
+  min-height: 2.4rem;
+}
+
+.cal-day {
+  min-height: 2.4rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cal-day.is-selected {
+  background: var(--sky);
+  color: #fff;
+  border-color: var(--sky);
+}
+
+.cal-day.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #f3f4f6;
+}
+
+.cal-day.is-holiday {
+  background: #fff7ed;
+}
+
+.cal-day.is-unavailable {
+  background: #f8fafc;
+}
+
+.cal-day.is-booked {
+  background: #eff6ff;
+}
+
+.appointment-calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.appointment-calendar-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.legend {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  display: inline-block;
+  background: #22c55e;
+}
+
+.legend.holiday {
+  background: #f97316;
+}
+
+.legend.unavailable {
+  background: #94a3b8;
+}
+
+.legend.booked {
+  background: #3b82f6;
+}
+
+.admin .list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(238, 245, 248, 0.14);
 }
 
 @media (max-width: 800px) {

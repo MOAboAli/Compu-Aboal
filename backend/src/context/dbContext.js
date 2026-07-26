@@ -13,6 +13,7 @@ const PaymentMethod = require('../models/PaymentMethod');
 const Notification = require('../models/Notification');
 const AuditLog = require('../models/AuditLog');
 const BackupJob = require('../models/BackupJob');
+const BlockedDate = require('../models/BlockedDate');
 
 class DbContext {
   constructor() {
@@ -30,6 +31,7 @@ class DbContext {
     this.Notification = Notification;
     this.AuditLog = AuditLog;
     this.BackupJob = BackupJob;
+    this.BlockedDate = BlockedDate;
   }
 
   async connect(uri) {

@@ -67,9 +67,12 @@ export default function ServiceDetailPage() {
         <h1>{serviceName}</h1>
         {service.basePrice != null ? (
           <p className="feature-card-price">
-            <span>{formatMoney(service.basePrice, lang)}</span>
+            <span>
+              {t('services.fromPrice', { price: formatMoney(service.basePrice, lang) })}
+            </span>
           </p>
         ) : null}
+        <p className="feature-card-price-note">{t('services.priceNote')}</p>
         <p className="muted">{t(`services.types.${typeKey}`)}</p>
         {pickLocale(service, 'description', lang) ? (
           <p className="section-copy">{pickLocale(service, 'description', lang)}</p>

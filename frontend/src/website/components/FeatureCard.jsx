@@ -26,10 +26,12 @@ export default function FeatureCard({
   description,
   price,
   compareAtPrice,
+  priceStartsFrom = false,
+  priceNote,
   ctaLabel,
   ctaTo,
 }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [imgSrc, setImgSrc] = useState(image || PLACEHOLDERS.product);
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export default function FeatureCard({
 
   const showSale = compareAtPrice != null && price != null && compareAtPrice > price;
   const lang = i18n.language;
+  const money = price != null ? formatMoney(price, lang) : '';
 
   return (
     <article className="feature-card">
@@ -62,10 +65,11 @@ export default function FeatureCard({
         {description ? <p className="feature-card-desc">{description}</p> : null}
         {price != null ? (
           <p className="feature-card-price">
-            <span>{formatMoney(price, lang)}</span>
+            <span>{priceStartsFrom ? t('services.fromPrice', { price: money }) : money}</span>
             {showSale ? <s>{formatMoney(compareAtPrice, lang)}</s> : null}
           </p>
         ) : null}
+        {priceNote ? <p className="feature-card-price-note">{priceNote}</p> : null}
         <Link to={ctaTo || to} className="feature-card-cta">
           {ctaLabel}
         </Link>

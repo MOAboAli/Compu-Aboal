@@ -65,6 +65,7 @@ export default function HomePage() {
                 subtitle={pickLocale(s.category, 'name', lang) || s.type}
                 description={pickLocale(s, 'description', lang)}
                 price={s.basePrice}
+                priceStartsFrom
                 ctaLabel={t('services.viewDetails')}
                 ctaTo={`/services/${s._id}`}
               />

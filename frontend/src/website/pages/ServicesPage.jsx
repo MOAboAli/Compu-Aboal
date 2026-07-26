@@ -20,6 +20,7 @@ export default function ServicesPage() {
     <div className="stack page-shell">
       <h1>{t('services.title')}</h1>
       <p className="section-copy">{t('services.chooseFirst')}</p>
+      <p className="section-copy muted">{t('services.priceNote')}</p>
       <div className="feature-grid">
         {offerings.map((s) => (
           <FeatureCard
@@ -32,6 +33,7 @@ export default function ServicesPage() {
             subtitle={pickLocale(s.category, 'name', lang) || s.type}
             description={pickLocale(s, 'description', lang)}
             price={s.basePrice}
+            priceStartsFrom
             ctaLabel={t('services.viewDetails')}
             ctaTo={`/services/${s._id}`}
           />

@@ -20,6 +20,7 @@ import AdminCategoriesPage from '../admin/pages/CategoriesPage';
 import AdminOrdersPage from '../admin/pages/OrdersPage';
 import AdminRequestsPage, { AdminServicesPage } from '../admin/pages/RequestsPage';
 import AdminCmsPage from '../admin/pages/CmsPage';
+import AdminAvailabilityPage from '../admin/pages/AvailabilityPage';
 import AdminReportsPage, {
   AdminAuditPage,
   AdminBackupsPage,
@@ -53,6 +54,7 @@ export default function App() {
               <Route path="orders" element={<AdminOrdersPage />} />
               <Route path="services" element={<AdminServicesPage />} />
               <Route path="requests" element={<AdminRequestsPage />} />
+              <Route path="availability" element={<AdminAvailabilityPage />} />
               <Route path="cms" element={<AdminCmsPage />} />
               <Route path="payments" element={<AdminPaymentsPage />} />
               <Route path="reports" element={<AdminReportsPage />} />
