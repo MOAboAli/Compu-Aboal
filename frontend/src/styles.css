@@ -423,6 +423,13 @@ a {
     height: 2.15rem;
     font-size: 1.35rem;
   }
+
+  .form,
+  .filters,
+  .form > .row,
+  .form.appointment-step-panel {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -647,8 +654,6 @@ a {
   margin-top: 0.35rem;
 }
 
-.form,
-.filters,
 .actions,
 .row {
   display: flex;
@@ -656,8 +661,51 @@ a {
   gap: 0.75rem;
 }
 
-.form {
-  flex-direction: column;
+.form,
+.filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.form > label,
+.form > input,
+.form > select,
+.filters > input,
+.filters > select {
+  min-width: 0;
+}
+
+.form > textarea,
+.form > button,
+.form > .btn,
+.form > p,
+.form > .error,
+.form > .section-copy,
+.form > .feature-card-price-note,
+.form > label:has(textarea),
+.filters > button {
+  grid-column: 1 / -1;
+}
+
+.form > .row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.form > .row > button,
+.form > .row > .btn,
+.form > .row > textarea {
+  grid-column: 1 / -1;
+}
+
+.form.row > button,
+.form.row > .btn {
+  grid-column: 1 / -1;
 }
 
 label {
@@ -856,6 +904,11 @@ button.linkish,
 .appointment-step-panel {
   display: grid;
   gap: 1rem;
+}
+
+.form.appointment-step-panel {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
 .appointment-calendar {
