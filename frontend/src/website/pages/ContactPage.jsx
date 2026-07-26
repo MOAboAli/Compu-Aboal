@@ -1,45 +1,30 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { catalogApi } from '../../shared/api';
+import { useCms } from '../CmsContext';
 
 export default function ContactPage() {
   const { t } = useTranslation();
-  const [contact, setContact] = useState({
-    phone: '+20 100 000 0000',
-    email: 'support@compu-aboali.com',
-    address: 'Cairo, Egypt',
-  });
+  const { cms, nested } = useCms();
 
-  useEffect(() => {
-    catalogApi
-      .cms()
-      .then((cms) => {
-        if (cms?.contact) {
-          setContact({
-            phone: cms.contact.phone || '+20 100 000 0000',
-            email: cms.contact.email || 'support@compu-aboali.com',
-            address: cms.contact.address || 'Cairo, Egypt',
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const phone = cms?.contact?.phone || '+20 100 000 0000';
+  const email = cms?.contact?.email || 'support@compu-aboali.com';
+  const address = cms?.contact?.address || 'Cairo, Egypt';
+  const intro = nested('contact', 'intro', 'introAr', t('contact.intro'));
 
   return (
     <div className="stack page-shell">
       <h1>{t('nav.contact')}</h1>
-      <p className="section-copy">{t('contact.intro')}</p>
+      <p className="section-copy">{intro}</p>
       <div className="contact-details">
         <p>
           <strong>{t('contact.phone')}</strong>{' '}
-          <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a>
+          <a href={`tel:${String(phone).replace(/\s/g, '')}`}>{phone}</a>
         </p>
         <p>
           <strong>{t('contact.email')}</strong>{' '}
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a href={`mailto:${email}`}>{email}</a>
         </p>
         <p>
-          <strong>{t('contact.address')}</strong> {contact.address}
+          <strong>{t('contact.address')}</strong> {address}
         </p>
       </div>
     </div>

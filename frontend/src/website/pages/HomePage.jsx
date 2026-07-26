@@ -5,33 +5,43 @@ import { catalogApi } from '../../shared/api';
 import FeatureCard, { productImage, serviceImage } from '../components/FeatureCard';
 import GalleryCarousel from '../components/GalleryCarousel';
 import { pickLocale } from '../../shared/locale';
+import { useCms } from '../CmsContext';
+
+const DEFAULT_HERO_IMAGE =
+  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80';
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
-  const [cms, setCms] = useState(null);
+  const { text, cms } = useCms();
   const [products, setProducts] = useState([]);
   const [services, setServices] = useState([]);
   const lang = i18n.language;
 
   useEffect(() => {
-    Promise.all([catalogApi.cms(), catalogApi.products('?featured=1'), catalogApi.serviceOfferings()])
-      .then(([c, p, s]) => {
-        setCms(c);
+    Promise.all([catalogApi.products('?featured=1'), catalogApi.serviceOfferings()])
+      .then(([p, s]) => {
         setProducts((p.items || p).slice(0, 10));
         setServices((s.items || s).slice(0, 10));
       })
       .catch(() => {});
   }, []);
 
-  const heroTitle = cms?.heroTitle || t('home.heroTitle');
-  const heroText = cms?.heroText || t('home.heroText');
+  const heroKicker = text('heroKicker', 'heroKickerAr', t('home.heroKicker'));
+  const heroTitle = text('heroTitle', 'heroTitleAr', t('home.heroTitle'));
+  const heroText = text('heroText', 'heroTextAr', t('home.heroText'));
+  const heroImage = cms?.heroImage || DEFAULT_HERO_IMAGE;
 
   return (
     <div className="home-page">
-      <section className="hero-bleed">
+      <section
+        className="hero-bleed"
+        style={{
+          backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.25)), url('${heroImage}')`,
+        }}
+      >
         <div className="hero-overlay" />
         <div className="hero-content">
-          <p className="hero-kicker">{t('home.heroKicker')}</p>
+          <p className="hero-kicker">{heroKicker}</p>
           <h1 className="hero-title">{heroTitle}</h1>
           <p className="hero-copy">{heroText}</p>
           <div className="hero-actions">
