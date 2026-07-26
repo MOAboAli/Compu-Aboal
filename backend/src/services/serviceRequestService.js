@@ -3,9 +3,15 @@ const { requestNumber } = require('../utils/ids');
 const { SERVICE_REQUEST_STATUSES } = require('../models/ServiceRequest');
 
 class ServiceRequestService {
-  constructor({ serviceRequestRepository, serviceOfferingRepository, emailSimulator }) {
+  constructor({
+    serviceRequestRepository,
+    serviceOfferingRepository,
+    appointmentAvailabilityService,
+    emailSimulator,
+  }) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceOfferingRepository = serviceOfferingRepository;
+    this.appointmentAvailabilityService = appointmentAvailabilityService;
     this.emailSimulator = emailSimulator;
   }
 
@@ -23,6 +29,10 @@ class ServiceRequestService {
     if (!['site_survey', 'maintenance', 'other'].includes(type)) {
       throw httpError('Invalid service type');
     }
+
+    const preferredDate = await this.appointmentAvailabilityService.assertDateBookable(
+      data.preferredDate
+    );
 
     const guestEmail = (data.email || data.guestEmail || user?.email || '').trim();
     const guestName = (data.name || data.guestName || user?.name || '').trim();
@@ -65,7 +75,7 @@ class ServiceRequestService {
       type,
       title,
       description: descriptionParts.join('\n'),
-      preferredDate: data.preferredDate || null,
+      preferredDate,
       address,
       contactPhone,
       attachments,

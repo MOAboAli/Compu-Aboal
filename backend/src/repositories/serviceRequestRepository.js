@@ -32,6 +32,22 @@ class ServiceRequestRepository {
       .populate('assignedTo', 'name email');
   }
 
+  findActiveOnDate(date) {
+    const { startOfDay, endOfDay } = require('../utils/dateOnly');
+    return this.ServiceRequest.find({
+      preferredDate: { $gte: startOfDay(date), $lte: endOfDay(date) },
+      status: { $nin: ['Closed'] },
+    }).select('preferredDate status offering requestNumber');
+  }
+
+  findActivePreferredDatesInRange(from, to) {
+    const { startOfDay, endOfDay } = require('../utils/dateOnly');
+    return this.ServiceRequest.find({
+      preferredDate: { $gte: startOfDay(from), $lte: endOfDay(to) },
+      status: { $nin: ['Closed'] },
+    }).select('preferredDate status');
+  }
+
   aggregate(pipeline) {
     return this.ServiceRequest.aggregate(pipeline);
   }

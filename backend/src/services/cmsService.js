@@ -1,5 +1,48 @@
 const { httpError } = require('../utils/httpError');
 
+const DEFAULT_HERO_IMAGE =
+  'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1800&q=80';
+
+function emptyHome() {
+  return {
+    heroTitle: '',
+    heroTitleAr: '',
+    heroText: '',
+    heroTextAr: '',
+    heroKicker: '',
+    heroKickerAr: '',
+    heroImage: DEFAULT_HERO_IMAGE,
+    about: '',
+    aboutAr: '',
+    promotions: [],
+    testimonials: [],
+    news: [],
+    contact: {
+      phone: '',
+      email: '',
+      address: '',
+      intro: '',
+      introAr: '',
+    },
+    footer: {
+      street: '',
+      streetAr: '',
+      city: '',
+      cityAr: '',
+      aboutTitle: '',
+      aboutTitleAr: '',
+      aboutText: '',
+      aboutTextAr: '',
+      phone: '',
+      email: '',
+      facebook: '',
+      twitter: '',
+      linkedin: '',
+      github: '',
+    },
+  };
+}
+
 class CmsService {
   constructor(cmsRepository) {
     this.cmsRepository = cmsRepository;
@@ -13,43 +56,66 @@ class CmsService {
     return this.cmsRepository.findAll(filter);
   }
 
-  async getHome() {
-    const block = await this.cmsRepository.findByKey('home');
-    if (!block) {
-      return {
-        heroTitle: '',
-        heroText: '',
-        about: '',
-        promotions: [],
-        testimonials: [],
-        news: [],
-        contact: {},
-      };
-    }
+  shapeHome(block) {
+    if (!block) return emptyHome();
+    const meta = block.metadata || {};
+    const defaults = emptyHome();
     return {
       _id: block._id,
-      heroTitle: block.title,
-      heroText: block.content,
-      ...(block.metadata || {}),
+      heroTitle: block.title || '',
+      heroText: block.content || '',
+      heroTitleAr: meta.heroTitleAr || '',
+      heroTextAr: meta.heroTextAr || '',
+      heroKicker: meta.heroKicker || '',
+      heroKickerAr: meta.heroKickerAr || '',
+      heroImage: meta.heroImage || DEFAULT_HERO_IMAGE,
+      about: meta.about || '',
+      aboutAr: meta.aboutAr || '',
+      promotions: meta.promotions || [],
+      testimonials: meta.testimonials || [],
+      news: meta.news || [],
+      contact: { ...defaults.contact, ...(meta.contact || {}) },
+      footer: { ...defaults.footer, ...(meta.footer || {}) },
     };
   }
 
-  async upsertHome(payload) {
+  async getHome() {
+    const block = await this.cmsRepository.findByKey('home');
+    return this.shapeHome(block);
+  }
+
+  async upsertHome(payload = {}) {
     const existing = await this.cmsRepository.findByKey('home');
+    const current = this.shapeHome(existing);
+
     const data = {
       key: 'home',
-      title: payload.heroTitle || 'Compu-Aboali',
-      content: payload.heroText || '',
+      title: payload.heroTitle ?? current.heroTitle ?? 'Compu-Aboali',
+      content: payload.heroText ?? current.heroText ?? '',
       type: 'page',
       status: 'active',
       metadata: {
-        about: payload.about || '',
-        promotions: payload.promotions || [],
-        testimonials: payload.testimonials || [],
-        news: payload.news || [],
-        contact: payload.contact || {},
+        heroTitleAr: payload.heroTitleAr ?? current.heroTitleAr,
+        heroTextAr: payload.heroTextAr ?? current.heroTextAr,
+        heroKicker: payload.heroKicker ?? current.heroKicker,
+        heroKickerAr: payload.heroKickerAr ?? current.heroKickerAr,
+        heroImage: payload.heroImage ?? current.heroImage,
+        about: payload.about ?? current.about,
+        aboutAr: payload.aboutAr ?? current.aboutAr,
+        promotions: payload.promotions ?? current.promotions,
+        testimonials: payload.testimonials ?? current.testimonials,
+        news: payload.news ?? current.news,
+        contact: {
+          ...current.contact,
+          ...(payload.contact || {}),
+        },
+        footer: {
+          ...current.footer,
+          ...(payload.footer || {}),
+        },
       },
     };
+
     if (existing) {
       await this.cmsRepository.updateById(existing._id, data);
       return this.getHome();
@@ -89,3 +155,4 @@ class CmsService {
 }
 
 module.exports = CmsService;
+module.exports.DEFAULT_HERO_IMAGE = DEFAULT_HERO_IMAGE;

@@ -1,28 +1,42 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setLanguage } from '../../app/i18n';
+import { CmsProvider, useCms } from '../CmsContext';
 
-export default function WebsiteLayout() {
+function SiteShell() {
   const { t, i18n } = useTranslation();
+  const { cms, nested } = useCms();
+
+  const phone = cms?.footer?.phone || cms?.contact?.phone || '+20 100 000 0000';
+  const email = cms?.footer?.email || cms?.contact?.email || 'support@compu-aboali.com';
+  const street = nested('footer', 'street', 'streetAr', t('footer.street'));
+  const city = nested('footer', 'city', 'cityAr', t('footer.city'));
+  const footerAboutTitle = nested('footer', 'aboutTitle', 'aboutTitleAr', t('footer.aboutTitle'));
+  const footerAboutText = nested('footer', 'aboutText', 'aboutTextAr', t('footer.aboutText'));
+  const facebook = cms?.footer?.facebook || 'https://facebook.com';
+  const twitter = cms?.footer?.twitter || 'https://twitter.com';
+  const linkedin = cms?.footer?.linkedin || 'https://linkedin.com';
+  const github = cms?.footer?.github || 'https://github.com/MOAboAli/Compu-Aboal';
+  const phoneHref = `tel:${String(phone).replace(/\s/g, '')}`;
 
   return (
     <div className="site site-light">
       <div className="topbar">
         <div className="topbar-inner">
           <div className="topbar-social" aria-label="Social links">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+            <a href={facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
               f
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
+            <a href={twitter} target="_blank" rel="noreferrer" aria-label="Twitter">
               𝕏
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <a href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
               in
             </a>
           </div>
           <div className="topbar-contact">
-            <a href="tel:+201000000000">+20 100 000 0000</a>
-            <a href="mailto:support@compu-aboali.com">support@compu-aboali.com</a>
+            <a href={phoneHref}>{phone}</a>
+            <a href={`mailto:${email}`}>{email}</a>
             <button
               type="button"
               className="lang-toggle"
@@ -74,8 +88,8 @@ export default function WebsiteLayout() {
                 </svg>
               </span>
               <div>
-                <p>{t('footer.street')}</p>
-                <strong>{t('footer.city')}</strong>
+                <p>{street}</p>
+                <strong>{city}</strong>
               </div>
             </div>
             <div className="footer-contact-row">
@@ -85,8 +99,8 @@ export default function WebsiteLayout() {
                 </svg>
               </span>
               <div>
-                <a href="tel:+201000000000">
-                  <strong>+20 100 000 0000</strong>
+                <a href={phoneHref}>
+                  <strong>{phone}</strong>
                 </a>
               </div>
             </div>
@@ -98,33 +112,33 @@ export default function WebsiteLayout() {
                 </svg>
               </span>
               <div>
-                <a className="footer-email" href="mailto:support@compu-aboali.com">
-                  support@compu-aboali.com
+                <a className="footer-email" href={`mailto:${email}`}>
+                  {email}
                 </a>
               </div>
             </div>
           </div>
 
           <div className="footer-about">
-            <h2>{t('footer.aboutTitle')}</h2>
-            <p>{t('footer.aboutText')}</p>
+            <h2>{footerAboutTitle}</h2>
+            <p>{footerAboutText}</p>
             <div className="footer-social" aria-label="Social links">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+              <a href={facebook} target="_blank" rel="noreferrer" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.6l.4-3H14V9z" />
                 </svg>
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter">
+              <a href={twitter} target="_blank" rel="noreferrer" aria-label="Twitter">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
                   <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.5 22H3.4l7.3-8.3L1 2h6.4l4.4 5.8L18.9 2zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20z" />
                 </svg>
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <a href={linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
                   <path d="M6.3 9.3H3.5V20h2.8V9.3zM4.9 4A1.6 1.6 0 1 0 5 7.2 1.6 1.6 0 0 0 4.9 4zM20.5 20h-2.8v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V20H11V9.3h2.7v1.5h.1c.4-.7 1.3-1.5 2.7-1.5 2.9 0 3.4 1.9 3.4 4.4V20z" />
                 </svg>
               </a>
-              <a href="https://github.com/MOAboAli/Compu-Aboal" target="_blank" rel="noreferrer" aria-label="GitHub">
+              <a href={github} target="_blank" rel="noreferrer" aria-label="GitHub">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z" />
                 </svg>
@@ -134,5 +148,13 @@ export default function WebsiteLayout() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function WebsiteLayout() {
+  return (
+    <CmsProvider>
+      <SiteShell />
+    </CmsProvider>
   );
 }

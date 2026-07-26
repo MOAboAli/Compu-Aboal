@@ -68,6 +68,13 @@ export const serviceRequestApi = {
   get: (id) => api(`/service-requests/${id}`),
 };
 
+export const appointmentApi = {
+  availability: (query = '') => api(`/appointments/availability${query}`),
+  listBlocked: (query = '') => api(`/appointments/blocked-dates${query}`),
+  createBlocked: (body) => api('/appointments/blocked-dates', { method: 'POST', body }),
+  deleteBlocked: (id) => api(`/appointments/blocked-dates/${id}`, { method: 'DELETE' }),
+};
+
 export const adminApi = {
   dashboard: () => api('/admin/dashboard'),
   users: () => api('/users'),
