@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { appointmentApi } from '../../shared/api';
+import DataTable from '../components/DataTable';
 
 export default function AvailabilityPage() {
   const [items, setItems] = useState([]);
@@ -39,6 +40,35 @@ export default function AvailabilityPage() {
       setError(err.message);
     }
   }
+
+  const columns = useMemo(
+    () => [
+      {
+        key: 'date',
+        label: 'Date',
+        render: (item) => String(item.date).slice(0, 10),
+        searchValue: (item) => String(item.date).slice(0, 10),
+      },
+      { key: 'type', label: 'Type' },
+      {
+        key: 'reason',
+        label: 'Reason',
+        render: (item) => item.reason || '—',
+      },
+      {
+        key: 'actions',
+        label: 'Actions',
+        className: 'actions-cell',
+        searchValue: () => '',
+        render: (item) => (
+          <button type="button" className="ghost" onClick={() => remove(item._id)}>
+            Remove
+          </button>
+        ),
+      },
+    ],
+    []
+  );
 
   return (
     <div className="stack">
@@ -81,20 +111,7 @@ export default function AvailabilityPage() {
 
       <div className="panel">
         <h2>Blocked dates</h2>
-        <ul className="list">
-          {items.map((item) => (
-            <li key={item._id}>
-              <span>
-                {String(item.date).slice(0, 10)} · {item.type}
-                {item.reason ? ` · ${item.reason}` : ''}
-              </span>
-              <button type="button" className="linkish" onClick={() => remove(item._id)}>
-                Remove
-              </button>
-            </li>
-          ))}
-          {!items.length ? <li className="muted">No blocked dates yet.</li> : null}
-        </ul>
+        <DataTable columns={columns} rows={items} emptyMessage="No blocked dates yet." />
       </div>
     </div>
   );

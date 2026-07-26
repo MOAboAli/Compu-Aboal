@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { adminApi } from '../../shared/api';
+import DataTable from '../components/DataTable';
 
 const roles = [
   'super_admin',
@@ -29,6 +30,39 @@ export default function AdminUsersPage() {
   useEffect(() => {
     load().catch((e) => setError(e.message));
   }, []);
+
+  const columns = useMemo(
+    () => [
+      { key: 'name', label: 'Name' },
+      { key: 'email', label: 'Email' },
+      { key: 'role', label: 'Role' },
+      {
+        key: 'status',
+        label: 'Status',
+        render: (u) => (u.isActive === false ? 'Inactive' : 'Active'),
+        searchValue: (u) => (u.isActive === false ? 'inactive' : 'active'),
+      },
+      {
+        key: 'actions',
+        label: 'Actions',
+        className: 'actions-cell',
+        searchValue: () => '',
+        render: (u) => (
+          <button
+            type="button"
+            className="ghost"
+            onClick={async () => {
+              await adminApi.updateUser(u._id, { isActive: u.isActive === false });
+              await load();
+            }}
+          >
+            Toggle active
+          </button>
+        ),
+      },
+    ],
+    []
+  );
 
   return (
     <div className="stack">
@@ -78,25 +112,7 @@ export default function AdminUsersPage() {
           <button type="submit">Create</button>
         </div>
       </form>
-      <ul className="list">
-        {users.map((u) => (
-          <li key={u._id}>
-            <span>
-              {u.name} · {u.email} · {u.role} · {u.isActive === false ? 'inactive' : 'active'}
-            </span>
-            <button
-              type="button"
-              className="ghost"
-              onClick={async () => {
-                await adminApi.updateUser(u._id, { isActive: u.isActive === false });
-                await load();
-              }}
-            >
-              Toggle active
-            </button>
-          </li>
-        ))}
-      </ul>
+      <DataTable columns={columns} rows={users} emptyMessage="No users yet." />
     </div>
   );
 }
