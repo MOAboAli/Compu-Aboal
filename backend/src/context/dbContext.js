@@ -14,6 +14,7 @@ const Notification = require('../models/Notification');
 const AuditLog = require('../models/AuditLog');
 const BackupJob = require('../models/BackupJob');
 const BlockedDate = require('../models/BlockedDate');
+const BlockedWeekday = require('../models/BlockedWeekday');
 
 class DbContext {
   constructor() {
@@ -32,6 +33,7 @@ class DbContext {
     this.AuditLog = AuditLog;
     this.BackupJob = BackupJob;
     this.BlockedDate = BlockedDate;
+    this.BlockedWeekday = BlockedWeekday;
   }
 
   async connect(uri) {

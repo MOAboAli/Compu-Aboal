@@ -23,6 +23,7 @@ const AuditRepository = require('./repositories/auditRepository');
 const ReportRepository = require('./repositories/reportRepository');
 const BackupRepository = require('./repositories/backupRepository');
 const BlockedDateRepository = require('./repositories/blockedDateRepository');
+const BlockedWeekdayRepository = require('./repositories/blockedWeekdayRepository');
 
 const AuthService = require('./services/authService');
 const UserService = require('./services/userService');
@@ -76,6 +77,7 @@ const auditRepository = new AuditRepository(dbContext);
 const reportRepository = new ReportRepository(dbContext);
 const backupRepository = new BackupRepository(dbContext);
 const blockedDateRepository = new BlockedDateRepository(dbContext);
+const blockedWeekdayRepository = new BlockedWeekdayRepository(dbContext);
 
 const paymentSimulator = new PaymentSimulator();
 const smsSimulator = new SmsSimulator(notificationRepository);
@@ -102,6 +104,7 @@ const serviceService = new ServiceService({
 });
 const appointmentAvailabilityService = new AppointmentAvailabilityService({
   blockedDateRepository,
+  blockedWeekdayRepository,
   serviceRequestRepository,
 });
 const serviceRequestService = new ServiceRequestService({
