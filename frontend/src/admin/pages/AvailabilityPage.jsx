@@ -61,7 +61,7 @@ export default function AvailabilityPage() {
         className: 'actions-cell',
         searchValue: () => '',
         render: (item) => (
-          <button type="button" className="ghost" onClick={() => remove(item._id)}>
+          <button type="button" className="btn-danger" onClick={() => remove(item._id)}>
             Remove
           </button>
         ),

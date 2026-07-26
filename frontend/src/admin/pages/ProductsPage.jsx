@@ -43,7 +43,7 @@ export default function AdminProductsPage() {
         render: (p) => (
           <button
             type="button"
-            className="ghost"
+            className="btn-danger"
             onClick={async () => {
               await adminApi.deleteProduct(p._id);
               await load();

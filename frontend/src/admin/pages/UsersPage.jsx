@@ -50,7 +50,7 @@ export default function AdminUsersPage() {
         render: (u) => (
           <button
             type="button"
-            className="ghost"
+            className="btn-success"
             onClick={async () => {
               await adminApi.updateUser(u._id, { isActive: u.isActive === false });
               await load();

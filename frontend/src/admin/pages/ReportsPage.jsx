@@ -101,7 +101,7 @@ export function AdminBackupsPage() {
         render: (b) => (
           <button
             type="button"
-            className="ghost"
+            className="btn"
             onClick={async () => {
               await adminApi.restoreBackup(b._id);
               setMessage('Restore simulated');

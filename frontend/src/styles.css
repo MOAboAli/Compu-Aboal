@@ -7,10 +7,13 @@
   --topbar: #ffffff;
   --white: #ffffff;
   --danger: #c0392b;
-  --admin-bg: #101820;
-  --admin-panel: rgba(255, 255, 255, 0.06);
-  --admin-text: #eef5f8;
-  --admin-accent: #2ec4b6;
+  --success: #15803d;
+  --admin-bg: #ffffff;
+  --admin-panel: #ffffff;
+  --admin-text: #1c1c1c;
+  --admin-accent: #1d4ed8;
+  --admin-line: #e8e8e8;
+  --admin-muted: #6b7280;
   font-family: 'Manrope', 'Segoe UI', sans-serif;
   color: var(--ink);
   background: #ffffff;
@@ -1018,15 +1021,6 @@ button.linkish,
   background: #3b82f6;
 }
 
-.admin .list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: center;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid rgba(238, 245, 248, 0.14);
-}
-
 .data-table-wrap {
   display: grid;
   gap: 0.75rem;
@@ -1049,8 +1043,9 @@ button.linkish,
 
 .data-table-scroll {
   overflow-x: auto;
-  border: 1px solid rgba(238, 245, 248, 0.14);
+  border: 1px solid var(--admin-line);
   border-radius: 8px;
+  background: #ffffff;
 }
 
 .data-table {
@@ -1063,7 +1058,7 @@ button.linkish,
 .data-table td {
   padding: 0.7rem 0.85rem;
   text-align: start;
-  border-bottom: 1px solid rgba(238, 245, 248, 0.12);
+  border-bottom: 1px solid var(--admin-line);
   vertical-align: middle;
 }
 
@@ -1071,13 +1066,13 @@ button.linkish,
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(238, 245, 248, 0.72);
-  background: rgba(0, 0, 0, 0.22);
+  color: var(--admin-muted);
+  background: #f8fafc;
   white-space: nowrap;
 }
 
 .data-table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.03);
+  background: #f8fafc;
 }
 
 .data-table td select,
@@ -1093,7 +1088,7 @@ button.linkish,
 
 .data-table-empty {
   text-align: center;
-  color: rgba(238, 245, 248, 0.65);
+  color: var(--admin-muted);
   padding: 1.25rem 0.85rem;
 }
 
@@ -1148,9 +1143,9 @@ button.linkish,
 }
 
 .admin-side {
-  border-right: 1px solid rgba(238, 245, 248, 0.14);
+  border-right: 1px solid var(--admin-line);
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: #ffffff;
 }
 
 .admin-side .brand {
@@ -1160,45 +1155,94 @@ button.linkish,
   font-weight: 700;
 }
 
+.admin-side .muted {
+  color: var(--admin-muted);
+}
+
 .admin-side nav {
   display: grid;
   gap: 0.5rem;
   margin-top: 1rem;
 }
 
+.admin-side a {
+  color: var(--admin-text);
+}
+
 .admin-side a.active {
   color: var(--admin-accent);
+  font-weight: 700;
 }
 
 .admin-main {
   padding: 1.25rem;
+  background: #ffffff;
 }
 
 .admin .card-link,
 .admin .panel {
-  background: var(--admin-panel);
-  border-color: rgba(238, 245, 248, 0.14);
+  background: #ffffff;
+  border: 1px solid var(--admin-line);
 }
 
 .admin input,
 .admin textarea,
 .admin select {
-  background: rgba(0, 0, 0, 0.25);
+  background: #ffffff;
   color: var(--admin-text);
-  border-color: rgba(238, 245, 248, 0.14);
+  border-color: var(--admin-line);
 }
 
 .admin button,
 .admin .btn {
   background: var(--admin-accent);
-  color: #06221f;
+  color: #ffffff;
+  border: 1px solid var(--admin-accent);
+}
+
+.admin button.ghost,
+.admin .btn.ghost,
+.admin button.linkish {
+  background: var(--admin-accent);
+  color: #ffffff;
+  border-color: var(--admin-accent);
+}
+
+.admin button.btn-danger,
+.admin .btn.btn-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #ffffff;
+}
+
+.admin button.btn-success,
+.admin .btn.btn-success {
+  background: var(--success);
+  border-color: var(--success);
+  color: #ffffff;
+}
+
+.admin .code {
+  background: #f8fafc;
+  color: var(--admin-text);
+  border: 1px solid var(--admin-line);
+}
+
+.admin .list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--admin-line);
 }
 
 .code {
-  background: rgba(0, 0, 0, 0.3);
+  background: #f8fafc;
   border-radius: 12px;
   padding: 1rem;
   overflow: auto;
+  border: 1px solid var(--line);
 }
 
 @media (max-width: 960px) {

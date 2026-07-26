@@ -32,7 +32,7 @@ export default function AdminCategoriesPage() {
         render: (c) => (
           <button
             type="button"
-            className="ghost"
+            className="btn-success"
             onClick={async () => {
               await adminApi.saveCategory(c._id, {
                 status: c.status === 'inactive' ? 'active' : 'inactive',
