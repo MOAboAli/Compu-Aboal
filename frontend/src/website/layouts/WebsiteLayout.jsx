@@ -2,6 +2,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setLanguage } from '../../app/i18n';
 import { useAuth } from '../../app/AuthContext';
+import { publicEmail, publicPhone, publicTelHref } from '../../shared/contact';
 import { CmsProvider, useCms } from '../CmsContext';
 
 function SiteShell() {
@@ -10,8 +11,8 @@ function SiteShell() {
   const { user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
 
-  const phone = cms?.footer?.phone || cms?.contact?.phone || '+20 100 000 0000';
-  const email = cms?.footer?.email || cms?.contact?.email || 'support@compu-aboali.com';
+  const phone = publicPhone(cms);
+  const email = publicEmail(cms);
   const street = nested('footer', 'street', 'streetAr', t('footer.street'));
   const city = nested('footer', 'city', 'cityAr', t('footer.city'));
   const footerAboutTitle = nested('footer', 'aboutTitle', 'aboutTitleAr', t('footer.aboutTitle'));
@@ -20,7 +21,7 @@ function SiteShell() {
   const twitter = cms?.footer?.twitter || 'https://twitter.com';
   const linkedin = cms?.footer?.linkedin || 'https://linkedin.com';
   const github = cms?.footer?.github || 'https://github.com/MOAboAli/Compu-Aboal';
-  const phoneHref = `tel:${String(phone).replace(/\s/g, '')}`;
+  const phoneHref = publicTelHref(phone);
 
   return (
     <div className="site site-light">

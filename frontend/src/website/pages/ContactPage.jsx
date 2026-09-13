@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useCms } from '../CmsContext';
+import { publicEmail, publicPhone, publicTelHref } from '../../shared/contact';
 
 export default function ContactPage() {
   const { t } = useTranslation();
   const { cms, nested } = useCms();
 
-  const phone = cms?.contact?.phone || '+20 100 000 0000';
-  const email = cms?.contact?.email || 'support@compu-aboali.com';
+  const phone = publicPhone(cms);
+  const email = publicEmail(cms);
   const address = cms?.contact?.address || 'Cairo, Egypt';
   const intro = nested('contact', 'intro', 'introAr', t('contact.intro'));
 
@@ -17,7 +18,7 @@ export default function ContactPage() {
       <div className="contact-details">
         <p>
           <strong>{t('contact.phone')}</strong>{' '}
-          <a href={`tel:${String(phone).replace(/\s/g, '')}`}>{phone}</a>
+          <a href={publicTelHref(phone)}>{phone}</a>
         </p>
         <p>
           <strong>{t('contact.email')}</strong>{' '}
