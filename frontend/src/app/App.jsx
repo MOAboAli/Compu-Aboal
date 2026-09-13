@@ -12,6 +12,13 @@ import ServiceDetailPage from '../website/pages/ServiceDetailPage';
 import ServiceRequestPage from '../website/pages/ServiceRequestPage';
 import AboutPage from '../website/pages/AboutPage';
 import ContactPage from '../website/pages/ContactPage';
+import LoginPage from '../website/pages/LoginPage';
+import RegisterPage from '../website/pages/RegisterPage';
+import ForgotPasswordPage from '../website/pages/ForgotPasswordPage';
+import AccountPage from '../website/pages/AccountPage';
+import CartPage from '../website/pages/CartPage';
+import PaymentSimPage from '../website/pages/PaymentSimPage';
+import CheckoutSuccessPage from '../website/pages/CheckoutSuccessPage';
 import AdminLoginPage from '../admin/pages/AdminLoginPage';
 import AdminDashboardPage from '../admin/pages/DashboardPage';
 import AdminUsersPage from '../admin/pages/UsersPage';
@@ -41,6 +48,15 @@ export default function App() {
             <Route path="services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route element={<RequireAuth />}>
+              <Route path="account" element={<AccountPage />} />
+              <Route path="cart" element={<CartPage />} />
+              <Route path="checkout/pay/:orderId" element={<PaymentSimPage />} />
+              <Route path="checkout/success/:orderId" element={<CheckoutSuccessPage />} />
+            </Route>
           </Route>
 
           <Route path="/admin/login" element={<AdminLoginPage />} />

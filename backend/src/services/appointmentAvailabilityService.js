@@ -216,7 +216,7 @@ class AppointmentAvailabilityService {
     };
   }
 
-  async assertDateBookable(dateInput) {
+  async assertDateBookable(dateInput, { excludeRequestId } = {}) {
     const day = startOfDay(dateInput);
     if (!day) throw httpError('Preferred appointment date is required');
 
@@ -243,7 +243,7 @@ class AppointmentAvailabilityService {
       );
     }
 
-    const existing = await this.serviceRequestRepository.findActiveOnDate(day);
+    const existing = await this.serviceRequestRepository.findActiveOnDate(day, excludeRequestId);
     if (existing.length) {
       throw httpError('Selected date is already booked');
     }

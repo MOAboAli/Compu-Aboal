@@ -37,6 +37,8 @@ async function seed(ctx = dbContext) {
   let admin = await ctx.User.findOne({ email: adminEmail });
   if (!admin) {
     admin = await ctx.User.create({
+      firstName: 'Super',
+      lastName: 'Admin',
       name: 'Super Admin',
       email: adminEmail,
       phone: '01000000000',

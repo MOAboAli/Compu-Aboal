@@ -7,6 +7,7 @@ const SERVICE_REQUEST_STATUSES = [
   'In Progress',
   'Completed',
   'Closed',
+  'Cancelled',
 ];
 
 const serviceRequestSchema = new mongoose.Schema(

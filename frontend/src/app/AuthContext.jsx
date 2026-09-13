@@ -29,9 +29,9 @@ export function AuthProvider({ children }) {
     refresh();
   }, []);
 
-  async function login(credentials) {
+  async function login(credentials, { adminOnly = false } = {}) {
     const data = await authApi.login(credentials);
-    if (data.user?.role === 'customer') {
+    if (adminOnly && data.user?.role === 'customer') {
       throw new Error('Admin access only');
     }
     localStorage.setItem('token', data.token);

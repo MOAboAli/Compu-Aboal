@@ -15,7 +15,9 @@ class OrderRepository {
   }
 
   findByUser(userId) {
-    return this.Order.find({ user: userId }).sort({ createdAt: -1 });
+    return this.Order.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .populate('paymentMethod', 'name code');
   }
 
   findAll(filter = {}) {

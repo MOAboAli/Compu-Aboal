@@ -10,9 +10,9 @@ Full-stack bilingual (EN/AR) computer store + services platform:
 
 ## Recent changes
 
-- Point Docker Compose at MongoDB Atlas instead of a local Mongo container
-- Bind the site to port 80 and the API to `127.0.0.1:5000` for server-style deploys
-- Document Atlas `MONGODB_URI` setup in `.env.example` and the Docker run steps
+- Let customers register, sign in, and manage a My Account area
+- Require an account for purchases and appointment bookings (guests can still browse)
+- Support personal and company profiles, order receipts, and booking reschedule/cancel
 
 ## Branching strategy
 

@@ -48,6 +48,7 @@
       "search": "بحث عن منتجات",
       "filters": "تصفية",
       "addToCart": "أضف إلى السلة",
+      "addedToCart": "تمت الإضافة إلى السلة",
       "wishlist": "المفضلة",
       "allCategories": "كل التصنيفات",
       "loading": "جاري تحميل المنتج...",
@@ -68,7 +69,7 @@
       "backToServices": "العودة إلى الخدمات",
       "submittedTitle": "تم إرسال الموعد",
       "submittedRef": "الرقم المرجعي",
-      "submittedNote": "سنتواصل معك قريباً. لا حاجة لإنشاء حساب عميل.",
+      "submittedNote": "سنتواصل معك قريباً. يمكنك إدارة هذا الحجز من حسابي.",
       "submitAppointment": "تأكيد الموعد",
       "calendar": {
         "weekdays": ["أحد", "إثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
@@ -112,10 +113,89 @@
       "success": "تم الدفع بنجاح",
       "backToOrders": "عرض الطلبات"
     },
+    "cart": {
+      "empty": "سلتك فارغة.",
+      "remove": "إزالة"
+    },
+    "auth": {
+      "loginTitle": "تسجيل الدخول",
+      "registerTitle": "إنشاء حساب",
+      "forgotTitle": "نسيت كلمة المرور",
+      "emailOrPhone": "البريد أو الهاتف",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "phone": "رقم الهاتف",
+      "login": "تسجيل الدخول",
+      "createAccount": "إنشاء حساب",
+      "haveAccount": "لديك حساب بالفعل؟",
+      "noAccount": "ليس لديك حساب؟",
+      "forgot": "نسيت كلمة المرور",
+      "sendReset": "إرسال رابط الاستعادة",
+      "newPassword": "كلمة مرور جديدة",
+      "resetPassword": "إعادة تعيين كلمة المرور",
+      "resetToken": "رمز الاستعادة",
+      "backToLogin": "العودة لتسجيل الدخول",
+      "resetSent": "إذا كان البريد موجوداً سيتم إرسال رابط الاستعادة.",
+      "resetDone": "تم تحديث كلمة المرور.",
+      "accountType": "نوع الحساب",
+      "types": {
+        "personal": "شخصي",
+        "company": "شركة"
+      },
+      "primaryAddressOptional": "العنوان الأساسي (اختياري)",
+      "companyAddress": "عنوان الشركة",
+      "companyWebsite": "موقع الشركة",
+      "promptTitle": "يلزم وجود حساب",
+      "promptBody": "سجّل الدخول أو أنشئ حساباً لشراء المنتجات أو حجز المواعيد.",
+      "continueBrowsing": "متابعة التصفح",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "email": "أدخل بريداً إلكترونياً صالحاً",
+        "password": "يجب أن تكون كلمة المرور {{min}} أحرف على الأقل",
+        "url": "أدخل رابط موقع صالح (https://example.com)"
+      }
+    },
+    "address": {
+      "street": "الشارع",
+      "city": "المدينة",
+      "state": "المنطقة",
+      "zip": "الرمز البريدي",
+      "country": "الدولة"
+    },
     "account": {
-      "orders": "الطلبات",
-      "requests": "طلبات الخدمة",
-      "profile": "الملف الشخصي"
+      "title": "حسابي",
+      "orders": "سجل الطلبات",
+      "requests": "حجوزات الخدمات",
+      "profile": "إعدادات الملف",
+      "tabs": {
+        "orders": "سجل الطلبات",
+        "bookings": "حجوزات الخدمات",
+        "profile": "إعدادات الملف"
+      },
+      "orderDate": "تاريخ الطلب",
+      "items": "العناصر",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "receipt": "الإيصال",
+      "downloadReceipt": "تنزيل",
+      "noOrders": "لا توجد طلبات بعد.",
+      "service": "الخدمة",
+      "bookingDate": "التاريخ",
+      "actions": "إجراءات",
+      "reschedule": "إعادة جدولة",
+      "cancel": "إلغاء",
+      "confirmCancel": "إلغاء هذا الحجز؟",
+      "saveDate": "حفظ التاريخ الجديد",
+      "rescheduled": "تم تغيير موعد الحجز.",
+      "noBookings": "لا توجد حجوزات بعد.",
+      "save": "حفظ الملف",
+      "saved": "تم تحديث الملف.",
+      "changePassword": "تغيير كلمة المرور",
+      "currentPassword": "كلمة المرور الحالية",
+      "updatePassword": "تحديث كلمة المرور",
+      "passwordUpdated": "تم تحديث كلمة المرور."
     }
   }
 }
