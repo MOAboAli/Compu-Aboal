@@ -48,6 +48,7 @@
       "search": "Search products",
       "filters": "Filters",
       "addToCart": "Add to cart",
+      "addedToCart": "Added to cart",
       "wishlist": "Wishlist",
       "allCategories": "All categories",
       "loading": "Loading product...",
@@ -68,7 +69,7 @@
       "backToServices": "Back to services",
       "submittedTitle": "Appointment submitted",
       "submittedRef": "Reference",
-      "submittedNote": "We will contact you soon. No customer account is required.",
+      "submittedNote": "We will contact you soon. You can manage this booking from My Account.",
       "submitAppointment": "Submit appointment",
       "calendar": {
         "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -112,10 +113,89 @@
       "success": "Payment successful",
       "backToOrders": "View orders"
     },
+    "cart": {
+      "empty": "Your cart is empty.",
+      "remove": "Remove"
+    },
+    "auth": {
+      "loginTitle": "Login",
+      "registerTitle": "Create account",
+      "forgotTitle": "Forgot password",
+      "emailOrPhone": "Email or phone",
+      "email": "Email address",
+      "password": "Password",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone number",
+      "login": "Login",
+      "createAccount": "Create account",
+      "haveAccount": "Already have an account?",
+      "noAccount": "Don't have an account?",
+      "forgot": "Forgot password",
+      "sendReset": "Send reset link",
+      "newPassword": "New password",
+      "resetPassword": "Reset password",
+      "resetToken": "Reset token",
+      "backToLogin": "Back to login",
+      "resetSent": "If the email exists, a reset link was sent.",
+      "resetDone": "Password updated.",
+      "accountType": "Account type",
+      "types": {
+        "personal": "Personal",
+        "company": "Company"
+      },
+      "primaryAddressOptional": "Primary address (optional)",
+      "companyAddress": "Company address",
+      "companyWebsite": "Company website",
+      "promptTitle": "Account required",
+      "promptBody": "Sign in or create an account to purchase products or book appointments.",
+      "continueBrowsing": "Continue browsing",
+      "errors": {
+        "required": "This field is required",
+        "email": "Enter a valid email address",
+        "password": "Password must be at least {{min}} characters",
+        "url": "Enter a valid website URL (https://example.com)"
+      }
+    },
+    "address": {
+      "street": "Street",
+      "city": "City",
+      "state": "State",
+      "zip": "Zip",
+      "country": "Country"
+    },
     "account": {
-      "orders": "Orders",
-      "requests": "Service requests",
-      "profile": "Profile"
+      "title": "My Account",
+      "orders": "Order history",
+      "requests": "Service bookings",
+      "profile": "Profile settings",
+      "tabs": {
+        "orders": "Order history",
+        "bookings": "Service bookings",
+        "profile": "Profile settings"
+      },
+      "orderDate": "Order date",
+      "items": "Items",
+      "total": "Total",
+      "status": "Status",
+      "receipt": "Receipt",
+      "downloadReceipt": "Download",
+      "noOrders": "No orders yet.",
+      "service": "Service",
+      "bookingDate": "Date",
+      "actions": "Actions",
+      "reschedule": "Reschedule",
+      "cancel": "Cancel",
+      "confirmCancel": "Cancel this booking?",
+      "saveDate": "Save new date",
+      "rescheduled": "Booking rescheduled.",
+      "noBookings": "No service bookings yet.",
+      "save": "Save profile",
+      "saved": "Profile updated.",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "updatePassword": "Update password",
+      "passwordUpdated": "Password updated."
     }
   }
 }

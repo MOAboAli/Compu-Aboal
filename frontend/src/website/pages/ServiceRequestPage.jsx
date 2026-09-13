@@ -1,17 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { appointmentApi, catalogApi, serviceRequestApi } from '../../shared/api';
 import { formatMoney, pickLocale } from '../../shared/locale';
+import { useAuth } from '../../app/AuthContext';
 import AppointmentCalendar from '../components/AppointmentCalendar';
+import AuthPrompt from '../components/AuthPrompt';
 
 export default function ServiceRequestPage() {
   const { serviceId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(1);
+  const [prompt, setPrompt] = useState(false);
   const [monthDate, setMonthDate] = useState(() => {
     const now = new Date();
     const min = new Date(
@@ -67,6 +72,17 @@ export default function ServiceRequestPage() {
     return map;
   }, [availability]);
 
+  useEffect(() => {
+    if (!user) return;
+    setForm((prev) => ({
+      ...prev,
+      name: prev.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.name || '',
+      email: prev.email || user.email || '',
+      contactPhone: prev.contactPhone || user.phone || '',
+      address: prev.address || user.primaryAddress?.street || '',
+    }));
+  }, [user]);
+
   function setField(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -76,6 +92,10 @@ export default function ServiceRequestPage() {
       setError(t('services.calendar.pickDate'));
       return;
     }
+    if (!user) {
+      setPrompt(true);
+      return;
+    }
     setError('');
     setStep(2);
   }
@@ -83,6 +103,10 @@ export default function ServiceRequestPage() {
   async function submit(e) {
     e.preventDefault();
     if (!service || !selectedDate) return;
+    if (!user) {
+      setPrompt(true);
+      return;
+    }
     setError('');
     try {
       const created = await serviceRequestApi.create({
@@ -129,9 +153,10 @@ export default function ServiceRequestPage() {
           {t('services.calendar.selectedDate')}: {selectedDate}
         </p>
         <p>{t('services.submittedNote')}</p>
-        <button type="button" onClick={() => navigate('/services')}>
-          {t('services.backToServices')}
+        <button type="button" onClick={() => navigate('/account')}>
+          {t('checkout.backToOrders')}
         </button>
+        <AuthPrompt open={prompt} onClose={() => setPrompt(false)} from={location.pathname} />
       </div>
     );
   }
@@ -241,6 +266,7 @@ export default function ServiceRequestPage() {
           <button type="submit">{t('services.submitAppointment')}</button>
         </form>
       )}
+      <AuthPrompt open={prompt} onClose={() => setPrompt(false)} from={location.pathname} />
     </div>
   );
 }

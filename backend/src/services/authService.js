@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const { signToken } = require('../middleware/auth');
 const { httpError } = require('../utils/httpError');
 const { randomToken, randomCode } = require('../utils/ids');
+const { validateCustomerProfile, assertPassword } = require('../utils/accountValidation');
 
 class AuthService {
   constructor({ userRepository, emailSimulator, smsSimulator }) {
@@ -10,20 +11,27 @@ class AuthService {
     this.smsSimulator = smsSimulator;
   }
 
-  async register({ name, email, phone, password, role = 'customer' }) {
-    const existing = await this.userRepository.findByEmail(email);
+  async register(payload) {
+    const data = validateCustomerProfile(payload, { requirePassword: true });
+    const existing = await this.userRepository.findByEmail(data.email);
     if (existing) throw httpError('Email already registered', 409);
 
     const emailVerifyToken = randomToken();
     const phoneVerifyCode = randomCode();
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(data.password, 10);
 
     const user = await this.userRepository.create({
-      name,
-      email,
-      phone: phone || '',
+      firstName: data.firstName,
+      lastName: data.lastName,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
       passwordHash,
-      role: role === 'customer' ? 'customer' : 'customer',
+      role: 'customer',
+      accountType: data.accountType,
+      primaryAddress: data.primaryAddress,
+      companyAddress: data.companyAddress,
+      companyWebsite: data.companyWebsite,
       emailVerifyToken,
       phoneVerifyCode,
     });
@@ -111,7 +119,7 @@ class AuthService {
     const user = await this.userRepository.findByResetToken(token);
     if (!user) throw httpError('Invalid or expired reset token');
 
-    user.passwordHash = await bcrypt.hash(password, 10);
+    user.passwordHash = await bcrypt.hash(assertPassword(password), 10);
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
     await user.save();
@@ -120,6 +128,54 @@ class AuthService {
 
   me(user) {
     return user.toSafeObject();
+  }
+
+  async updateProfile(user, payload) {
+    const data = validateCustomerProfile(
+      {
+        ...payload,
+        email: payload.email ?? user.email,
+        firstName: payload.firstName ?? user.firstName,
+        lastName: payload.lastName ?? user.lastName,
+        phone: payload.phone ?? user.phone,
+        accountType: payload.accountType ?? user.accountType,
+        primaryAddress: payload.primaryAddress ?? user.primaryAddress,
+        companyAddress: payload.companyAddress ?? user.companyAddress,
+        companyWebsite: payload.companyWebsite ?? user.companyWebsite,
+      },
+      { requirePassword: false }
+    );
+
+    if (data.email !== user.email) {
+      const existing = await this.userRepository.findByEmail(data.email);
+      if (existing && String(existing._id) !== String(user._id)) {
+        throw httpError('Email already registered', 409);
+      }
+    }
+
+    const updated = await this.userRepository.updateById(user._id, {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      accountType: data.accountType,
+      primaryAddress: data.primaryAddress || {},
+      companyAddress: data.accountType === 'company' ? data.companyAddress : '',
+      companyWebsite: data.accountType === 'company' ? data.companyWebsite : '',
+    });
+    if (!updated) throw httpError('User not found', 404);
+    return updated.toSafeObject();
+  }
+
+  async changePassword(user, { currentPassword, password }) {
+    const ok = await bcrypt.compare(String(currentPassword || ''), user.passwordHash);
+    if (!ok) throw httpError('Current password is incorrect', 401);
+    const next = assertPassword(password);
+    const updated = await this.userRepository.updateById(user._id, {
+      passwordHash: await bcrypt.hash(next, 10),
+    });
+    return { message: 'Password updated', user: updated.toSafeObject() };
   }
 }
 

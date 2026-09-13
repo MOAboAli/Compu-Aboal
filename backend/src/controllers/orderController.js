@@ -50,6 +50,17 @@ class OrderController {
       res.status(error.statusCode || 400).json({ message: error.message });
     }
   };
+
+  receipt = async (req, res) => {
+    try {
+      const { filename, buffer } = await this.orderService.receiptPdf(req.params.id, req.user);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (error) {
+      res.status(error.statusCode || 400).json({ message: error.message });
+    }
+  };
 }
 
 module.exports = OrderController;

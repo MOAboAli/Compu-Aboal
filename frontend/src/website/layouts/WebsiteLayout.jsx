@@ -1,11 +1,14 @@
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setLanguage } from '../../app/i18n';
+import { useAuth } from '../../app/AuthContext';
 import { CmsProvider, useCms } from '../CmsContext';
 
 function SiteShell() {
   const { t, i18n } = useTranslation();
   const { cms, nested } = useCms();
+  const { user, isAdmin, logout } = useAuth();
+  const navigate = useNavigate();
 
   const phone = cms?.footer?.phone || cms?.contact?.phone || '+20 100 000 0000';
   const email = cms?.footer?.email || cms?.contact?.email || 'support@compu-aboali.com';
@@ -66,6 +69,31 @@ function SiteShell() {
           </nav>
 
           <div className="header-actions">
+            {user ? (
+              <>
+                <NavLink to="/cart">{t('nav.cart')}</NavLink>
+                {isAdmin ? (
+                  <Link to="/admin">{t('nav.admin')}</Link>
+                ) : (
+                  <NavLink to="/account">{t('nav.account')}</NavLink>
+                )}
+                <button
+                  type="button"
+                  className="header-text-link"
+                  onClick={() => {
+                    logout();
+                    navigate('/');
+                  }}
+                >
+                  {t('nav.logout')}
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/login">{t('nav.login')}</NavLink>
+                <NavLink to="/register">{t('nav.register')}</NavLink>
+              </>
+            )}
             <Link to="/services" className="cta-appointment">
               {t('nav.appointment')}
             </Link>

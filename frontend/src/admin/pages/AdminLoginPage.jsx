@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const loggedIn = await login(form);
+      const loggedIn = await login(form, { adminOnly: true });
       if (!loggedIn || loggedIn.role === 'customer') {
         setError('Admin access only');
         return;

@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { catalogApi } from '../../shared/api';
+import { catalogApi, commerceApi } from '../../shared/api';
 import { productImage } from '../components/FeatureCard';
 import { formatMoney, pickLocale } from '../../shared/locale';
+import { useAuth } from '../../app/AuthContext';
+import AuthPrompt from '../components/AuthPrompt';
 
 export default function ProductPage() {
   const { id } = useParams();
+  const location = useLocation();
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [message, setMessage] = useState('');
   const [imgSrc, setImgSrc] = useState('');
+  const [prompt, setPrompt] = useState(false);
   const lang = i18n.language;
 
   useEffect(() => {
@@ -66,14 +71,30 @@ export default function ProductPage() {
           {product.stock != null ? ` · ${t('shop.stock')}: ${product.stock}` : ''}
         </p>
         <div className="product-detail-actions">
-          <Link className="feature-card-cta" to="/services">
-            {t('nav.appointment')}
-          </Link>
+          <button
+            type="button"
+            className="feature-card-cta"
+            onClick={async () => {
+              if (!user) {
+                setPrompt(true);
+                return;
+              }
+              try {
+                await commerceApi.addToCart({ productId: product._id, quantity: 1 });
+                setMessage(t('shop.addedToCart'));
+              } catch (err) {
+                setMessage(err.message);
+              }
+            }}
+          >
+            {t('shop.addToCart')}
+          </button>
           <Link className="btn ghost" to="/shop">
             {t('shop.backToShop')}
           </Link>
         </div>
-        {message ? <p className="error">{message}</p> : null}
+        {message ? <p className={message === t('shop.addedToCart') ? '' : 'error'}>{message}</p> : null}
+        <AuthPrompt open={prompt} onClose={() => setPrompt(false)} from={location.pathname} />
       </div>
     </div>
   );
