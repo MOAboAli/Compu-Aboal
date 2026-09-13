@@ -10,11 +10,9 @@ Full-stack bilingual (EN/AR) computer store + services platform:
 
 ## Recent changes
 
-- Implemented BRD init structure on branch `init-structure`
-- Public website: shop, services requests, cart, simulated checkout/payment, account
-- Admin console: users, catalog, orders, services, CMS, reports, audit, backups
-- Backend domains with RBAC roles and seed data (`admin@compu-aboali.com` / `Admin123!`)
-- Added docs under `docs/`
+- Point Docker Compose at MongoDB Atlas instead of a local Mongo container
+- Bind the site to port 80 and the API to `127.0.0.1:5000` for server-style deploys
+- Document Atlas `MONGODB_URI` setup in `.env.example` and the Docker run steps
 
 ## Branching strategy
 
@@ -50,12 +48,18 @@ Code/
 
 ## Run with Docker
 
+Uses **MongoDB Atlas** (no local Mongo container). Copy env and set your Atlas URI:
+
 ```bash
+cp .env.example .env
+# Edit .env → set MONGODB_URI to your Atlas connection string
 docker compose up --build
 ```
 
-- App: http://localhost:3000
-- API: http://localhost:5000/api/health
+In Atlas → **Network Access**, allow your current IP (or `0.0.0.0/0` while developing).
+
+- App: http://localhost
+- API: http://localhost:5000/api/health (loopback only)
 
 ## Run locally
 
