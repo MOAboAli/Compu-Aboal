@@ -8,6 +8,7 @@ function createOrderRoutes(orderController, { requireAuth, requireRoles }) {
   router.post('/checkout', orderController.checkout);
   router.get('/mine', orderController.listMine);
   router.get('/', staff, orderController.listAll);
+  router.get('/:id/receipt', orderController.receipt);
   router.get('/:id', orderController.getById);
   router.post('/:id/pay', orderController.pay);
   router.patch('/:id/status', staff, orderController.updateStatus);

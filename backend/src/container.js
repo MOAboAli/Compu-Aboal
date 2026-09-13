@@ -22,6 +22,8 @@ const NotificationRepository = require('./repositories/notificationRepository');
 const AuditRepository = require('./repositories/auditRepository');
 const ReportRepository = require('./repositories/reportRepository');
 const BackupRepository = require('./repositories/backupRepository');
+const BlockedDateRepository = require('./repositories/blockedDateRepository');
+const BlockedWeekdayRepository = require('./repositories/blockedWeekdayRepository');
 
 const AuthService = require('./services/authService');
 const UserService = require('./services/userService');
@@ -32,6 +34,7 @@ const WishlistService = require('./services/wishlistService');
 const OrderService = require('./services/orderService');
 const ServiceService = require('./services/serviceService');
 const ServiceRequestService = require('./services/serviceRequestService');
+const AppointmentAvailabilityService = require('./services/appointmentAvailabilityService');
 const CmsService = require('./services/cmsService');
 const PaymentService = require('./services/paymentService');
 const NotificationService = require('./services/notificationService');
@@ -56,6 +59,7 @@ const ReportController = require('./controllers/reportController');
 const AuditController = require('./controllers/auditController');
 const BackupController = require('./controllers/backupController');
 const AdminController = require('./controllers/adminController');
+const AppointmentAvailabilityController = require('./controllers/appointmentAvailabilityController');
 
 const userRepository = new UserRepository(dbContext);
 const categoryRepository = new CategoryRepository(dbContext);
@@ -72,6 +76,8 @@ const notificationRepository = new NotificationRepository(dbContext);
 const auditRepository = new AuditRepository(dbContext);
 const reportRepository = new ReportRepository(dbContext);
 const backupRepository = new BackupRepository(dbContext);
+const blockedDateRepository = new BlockedDateRepository(dbContext);
+const blockedWeekdayRepository = new BlockedWeekdayRepository(dbContext);
 
 const paymentSimulator = new PaymentSimulator();
 const smsSimulator = new SmsSimulator(notificationRepository);
@@ -96,9 +102,15 @@ const serviceService = new ServiceService({
   serviceCategoryRepository,
   serviceOfferingRepository,
 });
+const appointmentAvailabilityService = new AppointmentAvailabilityService({
+  blockedDateRepository,
+  blockedWeekdayRepository,
+  serviceRequestRepository,
+});
 const serviceRequestService = new ServiceRequestService({
   serviceRequestRepository,
   serviceOfferingRepository,
+  appointmentAvailabilityService,
   emailSimulator,
 });
 const cmsService = new CmsService(cmsRepository);
@@ -130,6 +142,9 @@ const reportController = new ReportController(reportService);
 const auditController = new AuditController(auditService);
 const backupController = new BackupController(backupService);
 const adminController = new AdminController(adminService);
+const appointmentAvailabilityController = new AppointmentAvailabilityController(
+  appointmentAvailabilityService
+);
 
 const auth = requireAuth(dbContext);
 const optional = optionalAuth(dbContext);
@@ -162,5 +177,6 @@ module.exports = {
     auditController,
     backupController,
     adminController,
+    appointmentAvailabilityController,
   },
 };

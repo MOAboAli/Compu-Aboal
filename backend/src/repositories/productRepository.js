@@ -8,14 +8,14 @@ class ProductRepository {
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .populate('category', 'name slug')
-      .populate('subcategory', 'name slug');
+      .populate('category', 'name nameAr slug')
+      .populate('subcategory', 'name nameAr slug');
   }
 
   findById(id) {
     return this.Product.findById(id)
-      .populate('category', 'name slug')
-      .populate('subcategory', 'name slug');
+      .populate('category', 'name nameAr slug')
+      .populate('subcategory', 'name nameAr slug');
   }
 
   findBySku(sku) {
@@ -28,8 +28,8 @@ class ProductRepository {
 
   updateById(id, data) {
     return this.Product.findByIdAndUpdate(id, data, { new: true, runValidators: true })
-      .populate('category', 'name slug')
-      .populate('subcategory', 'name slug');
+      .populate('category', 'name nameAr slug')
+      .populate('subcategory', 'name nameAr slug');
   }
 
   deleteById(id) {

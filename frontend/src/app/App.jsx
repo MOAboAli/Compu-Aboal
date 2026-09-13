@@ -8,9 +8,17 @@ import HomePage from '../website/pages/HomePage';
 import ShopPage from '../website/pages/ShopPage';
 import ProductPage from '../website/pages/ProductPage';
 import ServicesPage from '../website/pages/ServicesPage';
+import ServiceDetailPage from '../website/pages/ServiceDetailPage';
 import ServiceRequestPage from '../website/pages/ServiceRequestPage';
 import AboutPage from '../website/pages/AboutPage';
 import ContactPage from '../website/pages/ContactPage';
+import LoginPage from '../website/pages/LoginPage';
+import RegisterPage from '../website/pages/RegisterPage';
+import ForgotPasswordPage from '../website/pages/ForgotPasswordPage';
+import AccountPage from '../website/pages/AccountPage';
+import CartPage from '../website/pages/CartPage';
+import PaymentSimPage from '../website/pages/PaymentSimPage';
+import CheckoutSuccessPage from '../website/pages/CheckoutSuccessPage';
 import AdminLoginPage from '../admin/pages/AdminLoginPage';
 import AdminDashboardPage from '../admin/pages/DashboardPage';
 import AdminUsersPage from '../admin/pages/UsersPage';
@@ -19,6 +27,7 @@ import AdminCategoriesPage from '../admin/pages/CategoriesPage';
 import AdminOrdersPage from '../admin/pages/OrdersPage';
 import AdminRequestsPage, { AdminServicesPage } from '../admin/pages/RequestsPage';
 import AdminCmsPage from '../admin/pages/CmsPage';
+import AdminAvailabilityPage from '../admin/pages/AvailabilityPage';
 import AdminReportsPage, {
   AdminAuditPage,
   AdminBackupsPage,
@@ -36,8 +45,18 @@ export default function App() {
             <Route path="shop/:id" element={<ProductPage />} />
             <Route path="services" element={<ServicesPage />} />
             <Route path="services/:serviceId/appointment" element={<ServiceRequestPage />} />
+            <Route path="services/:serviceId" element={<ServiceDetailPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route element={<RequireAuth />}>
+              <Route path="account" element={<AccountPage />} />
+              <Route path="cart" element={<CartPage />} />
+              <Route path="checkout/pay/:orderId" element={<PaymentSimPage />} />
+              <Route path="checkout/success/:orderId" element={<CheckoutSuccessPage />} />
+            </Route>
           </Route>
 
           <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -51,6 +70,7 @@ export default function App() {
               <Route path="orders" element={<AdminOrdersPage />} />
               <Route path="services" element={<AdminServicesPage />} />
               <Route path="requests" element={<AdminRequestsPage />} />
+              <Route path="availability" element={<AdminAvailabilityPage />} />
               <Route path="cms" element={<AdminCmsPage />} />
               <Route path="payments" element={<AdminPaymentsPage />} />
               <Route path="reports" element={<AdminReportsPage />} />

@@ -3,13 +3,21 @@ const { requestNumber } = require('../utils/ids');
 const { SERVICE_REQUEST_STATUSES } = require('../models/ServiceRequest');
 
 class ServiceRequestService {
-  constructor({ serviceRequestRepository, serviceOfferingRepository, emailSimulator }) {
+  constructor({
+    serviceRequestRepository,
+    serviceOfferingRepository,
+    appointmentAvailabilityService,
+    emailSimulator,
+  }) {
     this.serviceRequestRepository = serviceRequestRepository;
     this.serviceOfferingRepository = serviceOfferingRepository;
+    this.appointmentAvailabilityService = appointmentAvailabilityService;
     this.emailSimulator = emailSimulator;
   }
 
   async create(user, data, files = []) {
+    if (!user) throw httpError('Authentication required', 401);
+
     if (!data.offering) {
       throw httpError('Please choose a service before booking an appointment');
     }
@@ -24,11 +32,15 @@ class ServiceRequestService {
       throw httpError('Invalid service type');
     }
 
-    const guestEmail = (data.email || data.guestEmail || user?.email || '').trim();
-    const guestName = (data.name || data.guestName || user?.name || '').trim();
-    const contactPhone = (data.contactPhone || user?.phone || '').trim();
+    const preferredDate = await this.appointmentAvailabilityService.assertDateBookable(
+      data.preferredDate
+    );
 
-    if (!user && (!guestEmail || !guestName || !contactPhone)) {
+    const guestEmail = (data.email || user.email || '').trim();
+    const guestName = (data.name || user.name || '').trim();
+    const contactPhone = (data.contactPhone || user.phone || '').trim();
+
+    if (!guestEmail || !guestName || !contactPhone) {
       throw httpError('Name, email, and phone are required');
     }
 
@@ -58,14 +70,14 @@ class ServiceRequestService {
 
     const request = await this.serviceRequestRepository.create({
       requestNumber: requestNumber(),
-      user: user?._id || null,
-      guestName: user ? '' : guestName,
-      guestEmail: user ? '' : guestEmail,
+      user: user._id,
+      guestName: '',
+      guestEmail: '',
       offering: offering._id,
       type,
       title,
       description: descriptionParts.join('\n'),
-      preferredDate: data.preferredDate || null,
+      preferredDate,
       address,
       contactPhone,
       attachments,
@@ -77,7 +89,7 @@ class ServiceRequestService {
       to: guestEmail,
       subject: `Appointment ${request.requestNumber} submitted`,
       body: `Your appointment for "${offering.name}" was submitted.`,
-      userId: user?._id || null,
+      userId: user._id,
       type: 'service_request_submitted',
       meta: { requestId: request._id, offeringId: offering._id },
     });
@@ -102,7 +114,7 @@ class ServiceRequestService {
     const isStaff = ['super_admin', 'admin', 'service_manager', 'customer_support'].includes(
       user.role
     );
-    if (!isStaff && String(request.user._id || request.user) !== String(user._id)) {
+    if (!isStaff && String(request.user?._id || request.user) !== String(user._id)) {
       throw httpError('Forbidden', 403);
     }
     return request;
@@ -124,6 +136,25 @@ class ServiceRequestService {
       ...files.map((f) => `/uploads/${f.filename}`),
     ];
     return this.serviceRequestRepository.updateById(id, { attachments });
+  }
+
+  async cancel(id, user) {
+    const request = await this.getById(id, user);
+    if (!['Submitted', 'Under Review', 'Scheduled'].includes(request.status)) {
+      throw httpError('This booking can no longer be cancelled');
+    }
+    return this.serviceRequestRepository.updateById(id, { status: 'Cancelled' });
+  }
+
+  async reschedule(id, user, preferredDate) {
+    const request = await this.getById(id, user);
+    if (!['Submitted', 'Under Review'].includes(request.status)) {
+      throw httpError('This booking can no longer be rescheduled');
+    }
+    const date = await this.appointmentAvailabilityService.assertDateBookable(preferredDate, {
+      excludeRequestId: request._id,
+    });
+    return this.serviceRequestRepository.updateById(id, { preferredDate: date, scheduledAt: null });
   }
 }
 

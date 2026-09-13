@@ -9,13 +9,15 @@ class ServiceRequestRepository {
 
   findById(id) {
     return this.ServiceRequest.findById(id)
-      .populate('user', 'name email phone')
-      .populate('offering', 'name type basePrice')
+      .populate('user', 'name firstName lastName email phone')
+      .populate('offering', 'name nameAr type basePrice')
       .populate('assignedTo', 'name email');
   }
 
   findByUser(userId) {
-    return this.ServiceRequest.find({ user: userId }).sort({ createdAt: -1 });
+    return this.ServiceRequest.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .populate('offering', 'name nameAr type basePrice');
   }
 
   findAll(filter = {}) {
@@ -30,6 +32,24 @@ class ServiceRequestRepository {
       .populate('user', 'name email phone')
       .populate('offering', 'name type basePrice')
       .populate('assignedTo', 'name email');
+  }
+
+  findActiveOnDate(date, excludeId) {
+    const { startOfDay, endOfDay } = require('../utils/dateOnly');
+    const filter = {
+      preferredDate: { $gte: startOfDay(date), $lte: endOfDay(date) },
+      status: { $nin: ['Closed', 'Cancelled', 'Completed'] },
+    };
+    if (excludeId) filter._id = { $ne: excludeId };
+    return this.ServiceRequest.find(filter).select('preferredDate status offering requestNumber');
+  }
+
+  findActivePreferredDatesInRange(from, to) {
+    const { startOfDay, endOfDay } = require('../utils/dateOnly');
+    return this.ServiceRequest.find({
+      preferredDate: { $gte: startOfDay(from), $lte: endOfDay(to) },
+      status: { $nin: ['Closed', 'Cancelled', 'Completed'] },
+    }).select('preferredDate status');
   }
 
   aggregate(pipeline) {

@@ -28,10 +28,32 @@ export async function api(path, options = {}) {
   return data;
 }
 
+async function download(path, filename) {
+  const headers = {};
+  const token = getToken();
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const response = await fetch(`${API_BASE}${path}`, { headers });
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.message || `Request failed (${response.status})`);
+  }
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 export const authApi = {
   login: (body) => api('/auth/login', { method: 'POST', body }),
   register: (body) => api('/auth/register', { method: 'POST', body }),
   me: () => api('/auth/me'),
+  updateMe: (body) => api('/auth/me', { method: 'PATCH', body }),
+  changePassword: (body) => api('/auth/password', { method: 'PATCH', body }),
   verify: (body) => api('/auth/verify', { method: 'POST', body }),
   forgotPassword: (body) => api('/auth/forgot-password', { method: 'POST', body }),
   resetPassword: (body) => api('/auth/reset-password', { method: 'POST', body }),
@@ -59,6 +81,7 @@ export const commerceApi = {
   pay: (orderId, body) => api(`/orders/${orderId}/pay`, { method: 'POST', body }),
   orders: () => api('/orders/mine'),
   order: (id) => api(`/orders/${id}`),
+  downloadReceipt: (id, filename) => download(`/orders/${id}/receipt`, filename || `receipt-${id}.pdf`),
   paymentMethods: () => api('/payments/methods'),
 };
 
@@ -66,6 +89,15 @@ export const serviceRequestApi = {
   create: (body) => api('/service-requests', { method: 'POST', body }),
   mine: () => api('/service-requests/mine'),
   get: (id) => api(`/service-requests/${id}`),
+  cancel: (id) => api(`/service-requests/${id}/cancel`, { method: 'PATCH' }),
+  reschedule: (id, body) => api(`/service-requests/${id}/reschedule`, { method: 'PATCH', body }),
+};
+
+export const appointmentApi = {
+  availability: (query = '') => api(`/appointments/availability${query}`),
+  listBlocked: (query = '') => api(`/appointments/blocked-dates${query}`),
+  createBlocked: (body) => api('/appointments/blocked-dates', { method: 'POST', body }),
+  deleteBlocked: (id) => api(`/appointments/blocked-dates/${id}`, { method: 'DELETE' }),
 };
 
 export const adminApi = {

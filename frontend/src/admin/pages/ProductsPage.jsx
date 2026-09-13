@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { adminApi } from '../../shared/api';
+import DataTable from '../components/DataTable';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
@@ -22,6 +23,39 @@ export default function AdminProductsPage() {
   useEffect(() => {
     load().catch(() => {});
   }, []);
+
+  const columns = useMemo(
+    () => [
+      { key: 'name', label: 'Name' },
+      { key: 'sku', label: 'SKU' },
+      {
+        key: 'price',
+        label: 'Price',
+        render: (p) => `$${Number(p.price).toFixed(2)}`,
+        searchValue: (p) => String(p.price),
+      },
+      { key: 'stock', label: 'Stock' },
+      {
+        key: 'actions',
+        label: 'Actions',
+        className: 'actions-cell',
+        searchValue: () => '',
+        render: (p) => (
+          <button
+            type="button"
+            className="btn-danger"
+            onClick={async () => {
+              await adminApi.deleteProduct(p._id);
+              await load();
+            }}
+          >
+            Delete
+          </button>
+        ),
+      },
+    ],
+    []
+  );
 
   return (
     <div className="stack">
@@ -94,25 +128,7 @@ export default function AdminProductsPage() {
         />
         <button type="submit">Add product</button>
       </form>
-      <ul className="list">
-        {products.map((p) => (
-          <li key={p._id}>
-            <span>
-              {p.name} · {p.sku} · ${Number(p.price).toFixed(2)} · stock {p.stock}
-            </span>
-            <button
-              type="button"
-              className="ghost"
-              onClick={async () => {
-                await adminApi.deleteProduct(p._id);
-                await load();
-              }}
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <DataTable columns={columns} rows={products} emptyMessage="No products yet." />
     </div>
   );
 }

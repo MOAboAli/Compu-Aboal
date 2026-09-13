@@ -64,6 +64,22 @@ class AuthController {
       res.status(error.statusCode || 400).json({ message: error.message });
     }
   };
+
+  updateMe = async (req, res) => {
+    try {
+      res.json(await this.authService.updateProfile(req.user, req.body));
+    } catch (error) {
+      res.status(error.statusCode || 400).json({ message: error.message });
+    }
+  };
+
+  changePassword = async (req, res) => {
+    try {
+      res.json(await this.authService.changePassword(req.user, req.body));
+    } catch (error) {
+      res.status(error.statusCode || 400).json({ message: error.message });
+    }
+  };
 }
 
 module.exports = AuthController;

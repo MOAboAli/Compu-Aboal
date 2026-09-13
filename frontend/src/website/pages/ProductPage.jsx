@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { catalogApi } from '../../shared/api';
+import { catalogApi, commerceApi } from '../../shared/api';
 import { productImage } from '../components/FeatureCard';
+import { formatMoney, pickLocale } from '../../shared/locale';
+import { useAuth } from '../../app/AuthContext';
+import AuthPrompt from '../components/AuthPrompt';
 
 export default function ProductPage() {
   const { id } = useParams();
-  const { t } = useTranslation();
+  const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [message, setMessage] = useState('');
+  const [imgSrc, setImgSrc] = useState('');
+  const [prompt, setPrompt] = useState(false);
+  const lang = i18n.language;
 
   useEffect(() => {
     catalogApi
       .product(id)
-      .then(setProduct)
+      .then((data) => {
+        setProduct(data);
+        setImgSrc(productImage(data));
+      })
       .catch((e) => setMessage(e.message));
   }, [id]);
 
@@ -30,36 +41,60 @@ export default function ProductPage() {
         ) : product.featured ? (
           <span className="feature-badge feature-badge-blue">{t('home.featuredBadge')}</span>
         ) : null}
-        <img src={productImage(product)} alt={product.name} />
+        <img
+          src={imgSrc}
+          alt={pickLocale(product, 'name', lang)}
+          onError={() =>
+            setImgSrc(
+              'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+            )
+          }
+        />
       </div>
       <div className="product-detail-body">
-        {product.category?.name ? (
-          <p className="feature-card-brand">{product.category.name}</p>
+        {product.category ? (
+          <p className="feature-card-brand">{pickLocale(product.category, 'name', lang)}</p>
         ) : null}
-        <h1>{product.name}</h1>
+        <h1>{pickLocale(product, 'name', lang)}</h1>
         <p className="feature-card-price">
-          <span>${Number(price).toFixed(2)}</span>
-          {hasSale ? <s>${Number(product.price).toFixed(2)}</s> : null}
+          <span>{formatMoney(price, lang)}</span>
+          {hasSale ? <s>{formatMoney(product.price, lang)}</s> : null}
         </p>
-        {product.shortDescription ? (
-          <p className="section-copy">{product.shortDescription}</p>
+        {pickLocale(product, 'shortDescription', lang) ? (
+          <p className="section-copy">{pickLocale(product, 'shortDescription', lang)}</p>
         ) : null}
-        {product.detailedDescription ? (
-          <p className="section-copy">{product.detailedDescription}</p>
+        {pickLocale(product, 'detailedDescription', lang) ? (
+          <p className="section-copy">{pickLocale(product, 'detailedDescription', lang)}</p>
         ) : null}
         <p className="muted">
           SKU {product.sku}
           {product.stock != null ? ` · ${t('shop.stock')}: ${product.stock}` : ''}
         </p>
         <div className="product-detail-actions">
-          <Link className="feature-card-cta" to="/services">
-            {t('nav.appointment')}
-          </Link>
+          <button
+            type="button"
+            className="feature-card-cta"
+            onClick={async () => {
+              if (!user) {
+                setPrompt(true);
+                return;
+              }
+              try {
+                await commerceApi.addToCart({ productId: product._id, quantity: 1 });
+                setMessage(t('shop.addedToCart'));
+              } catch (err) {
+                setMessage(err.message);
+              }
+            }}
+          >
+            {t('shop.addToCart')}
+          </button>
           <Link className="btn ghost" to="/shop">
             {t('shop.backToShop')}
           </Link>
         </div>
-        {message ? <p className="error">{message}</p> : null}
+        {message ? <p className={message === t('shop.addedToCart') ? '' : 'error'}>{message}</p> : null}
+        <AuthPrompt open={prompt} onClose={() => setPrompt(false)} from={location.pathname} />
       </div>
     </div>
   );

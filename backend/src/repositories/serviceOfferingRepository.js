@@ -4,11 +4,11 @@ class ServiceOfferingRepository {
   }
 
   findAll(filter = {}) {
-    return this.ServiceOffering.find(filter).sort({ name: 1 }).populate('category', 'name slug');
+    return this.ServiceOffering.find(filter).sort({ name: 1 }).populate('category', 'name nameAr slug');
   }
 
   findById(id) {
-    return this.ServiceOffering.findById(id).populate('category', 'name slug');
+    return this.ServiceOffering.findById(id).populate('category', 'name nameAr slug');
   }
 
   create(data) {

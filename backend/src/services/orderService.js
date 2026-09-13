@@ -51,6 +51,18 @@ class OrderService {
     const shipping = 0;
     const tax = Math.round(subtotal * 0.15 * 100) / 100;
     const total = subtotal + shipping + tax;
+    const fromProfile = user.primaryAddress || {};
+    const ship = shippingAddress && Object.keys(shippingAddress).length
+      ? shippingAddress
+      : {
+          fullName: user.name,
+          phone: user.phone,
+          line1: fromProfile.street,
+          city: fromProfile.city,
+          state: fromProfile.state,
+          postalCode: fromProfile.zip,
+          country: fromProfile.country || 'Egypt',
+        };
 
     const order = await this.orderRepository.create({
       orderNumber: orderNumber(),
@@ -62,7 +74,7 @@ class OrderService {
       total,
       status: 'Pending',
       paymentMethod: paymentMethodId || null,
-      shippingAddress: shippingAddress || {},
+      shippingAddress: ship,
       notes,
     });
 
@@ -164,6 +176,16 @@ class OrderService {
     const order = await this.orderRepository.updateById(id, { status });
     if (!order) throw httpError('Order not found', 404);
     return order;
+  }
+
+  async receiptPdf(id, user) {
+    const order = await this.getById(id, user);
+    if (!['Paid', 'Processing', 'Shipped', 'Delivered'].includes(order.status)) {
+      throw httpError('Receipt is available after payment');
+    }
+    const { receiptPdf } = require('../utils/receiptPdf');
+    const buffer = await receiptPdf(order);
+    return { filename: `${order.orderNumber}.pdf`, buffer };
   }
 }
 

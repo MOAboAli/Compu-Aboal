@@ -19,6 +19,7 @@ const createReportRoutes = require('./routes/reportRoutes');
 const createAuditRoutes = require('./routes/auditRoutes');
 const createBackupRoutes = require('./routes/backupRoutes');
 const createAdminRoutes = require('./routes/adminRoutes');
+const createAppointmentRoutes = require('./routes/appointmentRoutes');
 
 function createApp({ controllers, middleware }) {
   const app = express();
@@ -79,6 +80,13 @@ function createApp({ controllers, middleware }) {
   app.use(
     '/api/backups',
     createBackupRoutes(controllers.backupController, { requireAuth, requireRoles })
+  );
+  app.use(
+    '/api/appointments',
+    createAppointmentRoutes(controllers.appointmentAvailabilityController, {
+      requireAuth,
+      requireRoles,
+    })
   );
   app.use(
     '/api/admin',

@@ -1,38 +1,31 @@
 services:
-  mongo:
-    image: mongo:7
-    container_name: compu-aboali-mongo
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-
   backend:
     build: ./backend
     container_name: compu-aboali-backend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       PORT: 5000
-      MONGODB_URI: mongodb://mongo:27017/compu_aboali
-      JWT_SECRET: compu-aboali-dev-secret
-      AUTO_SEED: "true"
+      MONGODB_URI: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET:-compu-aboali-dev-secret}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      AUTO_SEED: ${AUTO_SEED:-true}
+    # Only reachable on the server itself (nginx uses Docker network name "backend")
     ports:
-      - "5000:5000"
+      - "127.0.0.1:5000:5000"
     volumes:
       - backend_uploads:/app/uploads
-    depends_on:
-      - mongo
 
   frontend:
     build: ./frontend
     container_name: compu-aboali-frontend
     restart: unless-stopped
     ports:
-      - "3000:80"
+      # http://SERVER_IP  (no :3000)
+      - "80:80"
     depends_on:
       - backend
 
 volumes:
-  mongo_data:
   backend_uploads:

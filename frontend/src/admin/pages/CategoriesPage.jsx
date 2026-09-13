@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { adminApi } from '../../shared/api';
+import DataTable from '../components/DataTable';
 
 export default function AdminCategoriesPage() {
   const [items, setItems] = useState([]);
@@ -14,6 +15,38 @@ export default function AdminCategoriesPage() {
   useEffect(() => {
     load().catch(() => {});
   }, []);
+
+  const columns = useMemo(
+    () => [
+      { key: 'name', label: 'Name' },
+      {
+        key: 'status',
+        label: 'Status',
+        render: (c) => (c.status === 'inactive' ? 'Inactive' : 'Active'),
+      },
+      {
+        key: 'actions',
+        label: 'Actions',
+        className: 'actions-cell',
+        searchValue: () => '',
+        render: (c) => (
+          <button
+            type="button"
+            className="btn-success"
+            onClick={async () => {
+              await adminApi.saveCategory(c._id, {
+                status: c.status === 'inactive' ? 'active' : 'inactive',
+              });
+              await load();
+            }}
+          >
+            Toggle
+          </button>
+        ),
+      },
+    ],
+    []
+  );
 
   return (
     <div className="stack">
@@ -43,27 +76,7 @@ export default function AdminCategoriesPage() {
         </select>
         <button type="submit">Add</button>
       </form>
-      <ul className="list">
-        {items.map((c) => (
-          <li key={c._id}>
-            <span>
-              {c.name} {c.status === 'inactive' ? '(inactive)' : ''}
-            </span>
-            <button
-              type="button"
-              className="ghost"
-              onClick={async () => {
-                await adminApi.saveCategory(c._id, {
-                  status: c.status === 'inactive' ? 'active' : 'inactive',
-                });
-                await load();
-              }}
-            >
-              Toggle
-            </button>
-          </li>
-        ))}
-      </ul>
+      <DataTable columns={columns} rows={items} emptyMessage="No categories yet." />
     </div>
   );
 }

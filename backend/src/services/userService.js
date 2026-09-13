@@ -26,11 +26,20 @@ class UserService {
     if (data.role && !ROLES.includes(data.role)) throw httpError('Invalid role');
 
     const passwordHash = await bcrypt.hash(data.password || 'ChangeMe123!', 10);
+    const firstName = data.firstName || String(data.name || '').trim().split(/\s+/)[0] || 'User';
+    const lastName =
+      data.lastName || String(data.name || '').trim().split(/\s+/).slice(1).join(' ') || firstName;
     const user = await this.userRepository.create({
-      name: data.name,
+      firstName,
+      lastName,
+      name: `${firstName} ${lastName}`.trim(),
       email: data.email,
       phone: data.phone || '',
       role: data.role || 'customer',
+      accountType: data.accountType || 'personal',
+      primaryAddress: data.primaryAddress,
+      companyAddress: data.companyAddress || '',
+      companyWebsite: data.companyWebsite || '',
       isActive: data.isActive !== false,
       passwordHash,
       emailVerified: !!data.emailVerified,

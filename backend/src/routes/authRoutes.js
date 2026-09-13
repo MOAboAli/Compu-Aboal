@@ -13,6 +13,8 @@ function createAuthRoutes(authController, { requireAuth }) {
   router.post('/forgot-password', authController.forgotPassword);
   router.post('/reset-password', authController.resetPassword);
   router.get('/me', requireAuth, authController.me);
+  router.patch('/me', requireAuth, authController.updateMe);
+  router.patch('/password', requireAuth, authController.changePassword);
 
   return router;
 }
