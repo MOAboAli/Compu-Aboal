@@ -606,8 +606,8 @@ async function seed(ctx = dbContext) {
         testimonials: [{ author: 'Ahmed', text: 'Excellent installation and support.' }],
         news: [{ title: 'New IP camera kits', body: '4K kits now in stock.' }],
         contact: {
-          phone: '+20 100 000 0000',
-          email: 'support@compu-aboali.com',
+          phone: '+20 11 15918769',
+          email: 'info@compu-aboali.com',
           address: 'Cairo, Egypt',
           intro: 'Reach out for product inquiries, site surveys, or maintenance support.',
           introAr: 'تواصل معنا للاستفسار عن المنتجات أو طلب معاينة موقع أو الصيانة.',
@@ -623,8 +623,8 @@ async function seed(ctx = dbContext) {
             'Compu-Aboali delivers computers, networking, security systems, and professional IT services for homes and businesses across Egypt.',
           aboutTextAr:
             'تقدم كومبيو أبو علي أجهزة الكمبيوتر والشبكات وأنظمة الأمن وخدمات تقنية المعلومات للمنازل والشركات في مصر.',
-          phone: '+20 100 000 0000',
-          email: 'support@compu-aboali.com',
+          phone: '+20 11 15918769',
+          email: 'info@compu-aboali.com',
           facebook: 'https://facebook.com',
           twitter: 'https://twitter.com',
           linkedin: 'https://linkedin.com',
@@ -647,7 +647,21 @@ async function seed(ctx = dbContext) {
   ];
   for (const block of cmsDefaults) {
     const exists = await ctx.CmsBlock.findOne({ key: block.key });
-    if (!exists) await ctx.CmsBlock.create({ ...block, status: 'active', locale: 'en' });
+    if (!exists) {
+      await ctx.CmsBlock.create({ ...block, status: 'active', locale: 'en' });
+    } else if (block.key === 'home') {
+      await ctx.CmsBlock.updateOne(
+        { _id: exists._id },
+        {
+          $set: {
+            'metadata.contact.phone': '+20 11 15918769',
+            'metadata.contact.email': 'info@compu-aboali.com',
+            'metadata.footer.phone': '+20 11 15918769',
+            'metadata.footer.email': 'info@compu-aboali.com',
+          },
+        }
+      );
+    }
   }
 
   console.log('Seed complete');

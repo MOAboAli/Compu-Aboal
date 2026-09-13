@@ -264,7 +264,7 @@ export default function AdminCmsPage() {
           <input
             value={cms.footer?.phone || ''}
             onChange={(e) => setFooter('phone', e.target.value)}
-            placeholder="Uses contact phone if empty"
+            placeholder="+20 11 15918769"
           />
         </label>
         <label>
@@ -272,7 +272,7 @@ export default function AdminCmsPage() {
           <input
             value={cms.footer?.email || ''}
             onChange={(e) => setFooter('email', e.target.value)}
-            placeholder="Uses contact email if empty"
+            placeholder="info@compu-aboali.com"
           />
         </label>
         <label>

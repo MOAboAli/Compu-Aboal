@@ -10,9 +10,9 @@ Full-stack bilingual (EN/AR) computer store + services platform:
 
 ## Recent changes
 
+- Point About, footer, and contact details to `info@compu-aboali.com` and `+20 11 15918769`
 - Let customers register, sign in, and manage a My Account area
 - Require an account for purchases and appointment bookings (guests can still browse)
-- Support personal and company profiles, order receipts, and booking reschedule/cancel
 
 ## Branching strategy
 
